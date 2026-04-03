@@ -102,6 +102,8 @@ heisenberg-team/
 
 ## Документация
 
+- [Апгрейд с одного агента](docs/upgrade-from-single-agent.md) - миграция с single-agent setup
+- [Поддерживаемые провайдеры](SETUP.md#supported-llm-providers) - Anthropic, OpenAI, Google, Ollama
 - [Онбординг агентов](docs/agent-onboarding.md) - настройка при первом запуске
 - [Архитектура](docs/architecture.md)
 - [Роли агентов](docs/agent-roles.md)

@@ -1,0 +1,157 @@
+# Upgrade from Single Agent to Full Team
+
+Already running OpenClaw with a single agent? This guide helps you deploy the full Heisenberg Team alongside your existing setup.
+
+## Overview
+
+```
+BEFORE:                          AFTER:
+┌──────────────┐                ┌──────────────┐
+│  Your Agent  │                │  Heisenberg  │ ← Boss (your main contact)
+│  (OpenClaw)  │                │              │
+│  Port 3120   │                │  Port 3120   │
+└──────────────┘                └──────┬───────┘
+                                      │ delegates to
+                          ┌───────────┼───────────┐
+                          │           │           │
+                     ┌────┴───┐ ┌────┴───┐ ┌────┴───┐
+                     │  Saul  │ │ Walter │ │ Jesse  │ ...
+                     │  3121  │ │  3122  │ │  3123  │
+                     └────────┘ └────────┘ └────────┘
+```
+
+## Step 1: Clone the Repository
+
+```bash
+cd ~/Desktop  # or wherever you keep projects
+git clone https://github.com/{{GITHUB_ORG}}/heisenberg-team.git
+cd heisenberg-team
+```
+
+## Step 2: Run Setup Wizard
+
+```bash
+bash scripts/setup-wizard.sh
+```
+
+The wizard will:
+- Ask for your name, timezone, preferences
+- Let you choose your LLM provider
+- Configure API keys
+- Replace all `{{PLACEHOLDER}}` values
+
+## Step 3: Decide What to Keep
+
+### Option A: Replace your current agent with Heisenberg
+Your existing agent becomes Heisenberg. Copy the workspace files:
+
+```bash
+# Back up your current workspace
+cp -r ~/your-current-workspace ~/your-current-workspace.backup
+
+# Copy Heisenberg agent files into your workspace
+cp agents/heisenberg/AGENTS.md ~/your-current-workspace/
+cp agents/heisenberg/SOUL.md ~/your-current-workspace/
+cp agents/heisenberg/IDENTITY.md ~/your-current-workspace/
+cp agents/heisenberg/BOOTSTRAP.md ~/your-current-workspace/
+cp agents/heisenberg/HEARTBEAT.md ~/your-current-workspace/
+cp agents/heisenberg/TOOLS.md ~/your-current-workspace/
+cp agents/heisenberg/MEMORY.md ~/your-current-workspace/
+mkdir -p ~/your-current-workspace/references/
+cp references/team-constitution.md ~/your-current-workspace/references/
+cp references/team-board.md ~/your-current-workspace/references/
+```
+
+Update your existing `~/.openclaw/openclaw.json` — add the `agents.remoteAgents` section from `configs/heisenberg.openclaw.json.example`.
+
+### Option B: Fresh start with Heisenberg as main agent
+```bash
+# Use the provided config
+cp configs/heisenberg.openclaw.json.example ~/.openclaw/openclaw.json
+# Edit with your API keys
+nano ~/.openclaw/openclaw.json
+# Set workspace
+# In openclaw.json, set "workspace" to the heisenberg-team/agents/heisenberg/ directory
+```
+
+## Step 4: Create Telegram Bots
+
+For each agent you want to deploy, create a bot in @BotFather:
+
+1. Open @BotFather in Telegram
+2. Send `/newbot`
+3. Name it (e.g., "Walter White Agent")
+4. Get the token
+
+You need one bot per agent. Minimum recommended:
+- **Heisenberg** (main — can be your existing bot)
+- **Saul** (coordinator — handles task pipeline)
+- **Walter** (code tasks)
+
+Others can be added later as needed.
+
+## Step 5: Deploy Agents
+
+For each additional agent:
+
+```bash
+# Copy agent config
+cp configs/saul.openclaw.json.example ~/.openclaw/agents/saul.json
+# Edit: add your bot token and API keys
+nano ~/.openclaw/agents/saul.json
+
+# Start the agent
+openclaw gateway start --config ~/.openclaw/agents/saul.json --port 3121
+```
+
+Or use the deploy script:
+```bash
+bash scripts/deploy-team.sh
+```
+
+See [deploy-agents.md](deploy-agents.md) for detailed multi-agent setup.
+
+## Step 6: Test Communication
+
+Send a message to Heisenberg:
+```
+Hey, check if Saul is online
+```
+
+Heisenberg should use `sessions_send` to ping Saul and report back.
+
+## Step 7: Migrate Your Data
+
+Your existing memory, lessons, and preferences can be kept:
+- Copy `memory/` files from your old workspace to Heisenberg's workspace
+- Update MEMORY.md to remove placeholders
+- Your SQLite memory database stays in `~/.openclaw/memory/` — it's shared
+
+## What Changes for You?
+
+| Before | After |
+|--------|-------|
+| One bot, one agent | One main bot + specialist bots |
+| You manage everything | Heisenberg delegates automatically |
+| Direct tool calls | Agents coordinate via Board |
+| No backup if agent fails | Self-heal + heartbeat monitoring |
+
+## FAQ
+
+### Can I keep my agent's personality?
+Yes! Edit `SOUL.md` and `IDENTITY.md` in your workspace. The Breaking Bad names are just defaults — rename agents to whatever you want.
+
+### Do I need all 8 agents?
+No. Start with Heisenberg + 1-2 specialists. Add more when you need them.
+
+### What if I use Claude Max, not API?
+The setup wizard handles this. Select "Anthropic" and enter "max" when asked for the API key.
+
+### Can agents run on different machines?
+Yes — agents communicate via `sessions_send` which works across OpenClaw instances. See [deploy-agents.md](deploy-agents.md).
+
+### How much does it cost?
+- Claude Max: $100-200/month (covers everything)
+- API: varies by usage (~$20-50/month typical for light use)
+- Embeddings: ~$0.02/month (negligible)
+- Hosting: free if local, $5-20/month for VPS

@@ -2,7 +2,7 @@
   "version": 1,
   "name": "Hank",
   "model": {
-    "default": "anthropic/claude-sonnet-4-5",
+    "default": "{{AGENT_MODEL}}",
     "thinking": "adaptive"
   },
   "apiKeys": {
@@ -13,8 +13,8 @@
     "enabled": true,
     "provider": "local",
     "embedding": {
-      "provider": "openai",
-      "model": "text-embedding-3-small"
+      "provider": "{{EMBEDDING_PROVIDER}}",
+      "model": "{{EMBEDDING_MODEL}}"
     }
   },
   "plugins": {

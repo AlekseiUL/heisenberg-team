@@ -133,6 +133,8 @@ bash scripts/deploy-team.sh
 ## Documentation
 
 - [Your First Task](docs/first-task.md) - step-by-step walkthrough
+- [Upgrade from Single Agent](docs/upgrade-from-single-agent.md) - migrate from single-agent setup
+- [Supported Providers](SETUP.md#supported-llm-providers) - Anthropic, OpenAI, Google, Ollama
 - [Agent Onboarding](docs/agent-onboarding.md) - configure agents on first launch
 - [Architecture](docs/architecture.md) - how agents communicate
 - [Agent Roles](docs/agent-roles.md) - what each agent does

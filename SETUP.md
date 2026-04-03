@@ -9,6 +9,21 @@
 - API key for at least one LLM provider (Anthropic, OpenAI, Google, etc.)
 - Telegram bot token (recommended for notifications — create via [@BotFather](https://t.me/BotFather))
 
+## Supported LLM Providers
+
+| Provider | Main Model | Agent Model | Notes |
+|----------|-----------|-------------|-------|
+| Anthropic | claude-opus-4-5 | claude-sonnet-4-5 | Recommended. Best multi-agent coordination |
+| OpenAI | gpt-4o | gpt-4o | Full support |
+| Google | gemini-2.5-pro | gemini-2.5-flash | Full support |
+| Ollama | llama3 (or custom) | same | Local, free. Limited tool-use capability |
+
+### Claude Max Users
+If you have a Claude Max subscription ($100-200/month), you don't need a separate API key. The subscription includes API access through the Claude app. Enter 'max' when the wizard asks for your Anthropic API key.
+
+### Embeddings
+Vector memory search requires OpenAI embeddings ($0.02/1M tokens — practically free). If you skip embeddings, memory search will use keyword matching (BM25) only — still works, just less smart.
+
 ## Quick Start (Recommended)
 
 The interactive wizard handles everything — placeholder replacement, agent installation, and verification:

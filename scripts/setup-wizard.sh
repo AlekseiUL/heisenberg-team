@@ -93,6 +93,84 @@ ask OWNER_NAME "Your first name" "" true
 ask OWNER_USERNAME "Your GitHub/online username" "" true
 
 echo ""
+echo -e "${YELLOW}── LLM Provider ──${NC}"
+echo ""
+echo "  Which LLM provider do you use?"
+echo ""
+echo "  1) Anthropic (Claude) — recommended"
+echo "  2) OpenAI (GPT-4, GPT-4o)"
+echo "  3) Google (Gemini)"
+echo "  4) Ollama (local models)"
+echo "  5) Other / I'll configure manually"
+echo ""
+read -p "  Choose [1]: " LLM_CHOICE
+LLM_CHOICE="${LLM_CHOICE:-1}"
+
+case "$LLM_CHOICE" in
+  1)
+    LLM_PROVIDER="anthropic"
+    MAIN_MODEL="anthropic/claude-opus-4-5"
+    AGENT_MODEL="anthropic/claude-sonnet-4-5"
+    ask ANTHROPIC_API_KEY "Anthropic API key (or 'max' for Claude Max subscription)" "" true
+    if [ "$ANTHROPIC_API_KEY" = "max" ]; then
+      ANTHROPIC_API_KEY=""
+      echo -e "  ${CYAN}Claude Max detected — no API key needed, uses built-in auth${NC}"
+    fi
+    ;;
+  2)
+    LLM_PROVIDER="openai"
+    MAIN_MODEL="openai/gpt-4o"
+    AGENT_MODEL="openai/gpt-4o"
+    ask OPENAI_API_KEY "OpenAI API key" "" true
+    ;;
+  3)
+    LLM_PROVIDER="google"
+    MAIN_MODEL="google/gemini-2.5-pro"
+    AGENT_MODEL="google/gemini-2.5-flash"
+    ask GOOGLE_API_KEY "Google AI API key" "" true
+    ;;
+  4)
+    LLM_PROVIDER="ollama"
+    MAIN_MODEL="ollama/llama3"
+    AGENT_MODEL="ollama/llama3"
+    echo -e "  ${CYAN}Make sure Ollama is running: ollama serve${NC}"
+    ask OLLAMA_MODEL "Ollama model name" "llama3" false
+    MAIN_MODEL="ollama/$OLLAMA_MODEL"
+    AGENT_MODEL="ollama/$OLLAMA_MODEL"
+    ;;
+  5)
+    LLM_PROVIDER="custom"
+    ask MAIN_MODEL "Main model (provider/model format)" "anthropic/claude-opus-4-5" true
+    AGENT_MODEL="$MAIN_MODEL"
+    ;;
+esac
+
+echo ""
+echo "  Embedding model for vector memory (semantic search)."
+echo "  Options:"
+echo "    - OpenAI text-embedding-3-small (recommended, needs OpenAI key)"
+echo "    - Skip (memory search will use BM25 only, no vectors)"
+echo ""
+
+if [ "$LLM_PROVIDER" = "openai" ] && [ -n "${OPENAI_API_KEY:-}" ]; then
+  EMBEDDING_PROVIDER="openai"
+  EMBEDDING_MODEL="text-embedding-3-small"
+  echo -e "  ${GREEN}✓${NC} Using OpenAI embeddings (same API key)"
+else
+  read -p "  OpenAI API key for embeddings (or 'skip'): " EMBED_KEY
+  if [ "$EMBED_KEY" = "skip" ] || [ -z "$EMBED_KEY" ]; then
+    EMBEDDING_PROVIDER="none"
+    EMBEDDING_MODEL=""
+    echo -e "  ${YELLOW}⚠${NC} Embeddings skipped — memory search will be keyword-only"
+  else
+    OPENAI_API_KEY="$EMBED_KEY"
+    EMBEDDING_PROVIDER="openai"
+    EMBEDDING_MODEL="text-embedding-3-small"
+    echo -e "  ${GREEN}✓${NC} Embeddings configured"
+  fi
+fi
+
+echo ""
 echo -e "${YELLOW}── Telegram (recommended) ──${NC}"
 echo -e "  ${CYAN}Agents send you status updates via Telegram.${NC}"
 echo -e "  ${CYAN}Get your ID from @userinfobot on Telegram.${NC}"
@@ -127,6 +205,13 @@ declare -A REPLACEMENTS=(
   ["{{GITHUB_ORG}}"]="${GITHUB_ORG:-$OWNER_USERNAME}"
   ["{{WORKSPACE_PATH}}"]="${WORKSPACE_PATH:-~/workspace/}"
   ["{{PROJECTS_PATH}}"]="${WORKSPACE_PATH:-~/workspace/}projects/"
+  ["{{MAIN_MODEL}}"]="${MAIN_MODEL:-anthropic/claude-opus-4-5}"
+  ["{{AGENT_MODEL}}"]="${AGENT_MODEL:-anthropic/claude-sonnet-4-5}"
+  ["{{EMBEDDING_PROVIDER}}"]="${EMBEDDING_PROVIDER:-openai}"
+  ["{{EMBEDDING_MODEL}}"]="${EMBEDDING_MODEL:-text-embedding-3-small}"
+  ["{{ANTHROPIC_API_KEY}}"]="${ANTHROPIC_API_KEY:-your-anthropic-key}"
+  ["{{OPENAI_API_KEY}}"]="${OPENAI_API_KEY:-your-openai-key}"
+  ["{{GOOGLE_API_KEY}}"]="${GOOGLE_API_KEY:-your-google-key}"
 )
 
 # Count files to process
