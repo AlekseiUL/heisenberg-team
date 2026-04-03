@@ -1,0 +1,7 @@
+# Private files - DO NOT publish on GitHub
+PACKAGE-INFO.md
+SKILL.md
+
+# Keep only public versions
+!SKILL-public.md
+!README-github.md

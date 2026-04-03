@@ -1,0 +1,137 @@
+#!/bin/bash
+# depersonalize.sh — Replace all personal data with placeholders
+# SAFETY: Update TARGET to match your clone location
+set -euo pipefail
+
+TARGET="$HOME/Desktop/heisenberg-team"  # <-- Update this to your clone path
+
+if [ ! -d "$TARGET" ]; then
+  echo "ERROR: Target directory $TARGET does not exist!"
+  exit 1
+fi
+
+echo "=== Depersonalizing files in $TARGET ==="
+
+# Find all text files (md, sh, txt, yaml, yml, json, example)
+find "$TARGET" -type f \( \
+  -name "*.md" -o -name "*.sh" -o -name "*.txt" -o \
+  -name "*.yaml" -o -name "*.yml" -o -name "*.json" -o \
+  -name "*.example" -o -name "*.env" -o -name ".env*" -o \
+  -name "LICENSE" -o -name ".gitignore" \
+\) | while read -r file; do
+  # Skip binary files and this script itself
+  [[ "$file" == *"depersonalize.sh" ]] && continue
+  
+  # Use temp file for sed (macOS compatible)
+  
+  # Telegram IDs
+  sed -i '' 's/YOUR_TELEGRAM_ID/{{OWNER_TELEGRAM_ID}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_SECOND_USER_ID/{{SECOND_USER_TELEGRAM_ID}}/g' "$file" 2>/dev/null || true
+  
+  # Chat IDs
+  sed -i '' 's/YOUR_GROUP_CHAT_ID/{{GROUP_CHAT_ID}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_NOTIFY_CHANNEL_ID/{{NOTIFY_CHANNEL_ID}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_PAID_CHANNEL_ID/{{PAID_CHANNEL_ID}}/g' "$file" 2>/dev/null || true
+  
+  # Names - longer patterns first, case-sensitive
+  sed -i '' 's/YOUR_SURNAME/{{OWNER_SURNAME}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_NAME/{{OWNER_NAME}}/g' "$file" 2>/dev/null || true
+  
+  # Family members
+  sed -i '' 's/YOUR_FAMILY_MEMBER_1/{{FAMILY_MEMBER_1}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_FAMILY_MEMBER_2/{{FAMILY_MEMBER_2}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_PET_NAME/{{PET_NAME}}/g' "$file" 2>/dev/null || true
+  
+  # Usernames (case-insensitive patterns)
+  sed -i '' 's/YOUR_USERNAME/{{OWNER_USERNAME}}/g' "$file" 2>/dev/null || true
+  
+  # Telegram channels/bots
+  sed -i '' 's/YOUR_TELEGRAM_CHANNEL/{{TELEGRAM_CHANNEL}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/@YOUR_BOT_USERNAME/{{BOT_USERNAME}}/g' "$file" 2>/dev/null || true
+  
+  # Brand names
+  sed -i '' 's/YOUR_PAID_GROUP_NAME/{{PAID_GROUP_NAME}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_AGENT_NICKNAME/{{AGENT_NICKNAME}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_CONFERENCE_NAME/{{CONFERENCE_NAME}}/g' "$file" 2>/dev/null || true
+  
+  # Locations
+  sed -i '' 's/YOUR_CITY/{{CITY}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_COUNTRY/{{COUNTRY}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_DISTRICT/{{DISTRICT}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_HOMETOWN/{{HOMETOWN}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_BIRTH_CITY/{{BIRTH_CITY}}/g' "$file" 2>/dev/null || true
+  
+  # Paths - order matters (longer first)
+  sed -i '' "s|/Users/YOUR_USERNAME/|~/|g" "$file" 2>/dev/null || true
+  sed -i '' "s|~/Desktop/YOUR_PROJECTS/|{{PROJECTS_PATH}}|g" "$file" 2>/dev/null || true
+  sed -i '' "s|~/Desktop/YOUR_WORKSPACE/|{{WORKSPACE_PATH}}|g" "$file" 2>/dev/null || true
+  
+  # Car
+  sed -i '' 's/YOUR_CAR_MODEL/{{CAR_MODEL}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_CAR_VIN/{{CAR_VIN}}/g' "$file" 2>/dev/null || true
+  
+  # GitHub org
+  sed -i '' 's/YOUR_GITHUB_ORG/{{GITHUB_ORG}}/g' "$file" 2>/dev/null || true
+
+  # Telegram bot names
+  sed -i '' 's/@YOUR_BOT_1/@{{BOT_SKYLER}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/@YOUR_BOT_2/@{{BOT_HANK}}/g' "$file" 2>/dev/null || true
+
+  # Telegram group links and chat IDs
+  sed -i '' 's|t\.me/+YOUR_GROUP_LINK|t.me/+{{PAID_GROUP_LINK}}|g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_PAID_GROUP_CHAT_ID/{{PAID_GROUP_CHAT_ID}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_EXTRA_CHAT_ID/{{EXTRA_CHAT_ID}}/g' "$file" 2>/dev/null || true
+
+  # Community
+  sed -i '' 's/@YOUR_COMMUNITY_CHAT/@{{COMMUNITY_CHAT}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_COMMUNITY_NAME/{{COMMUNITY_NAME}}/g' "$file" 2>/dev/null || true
+
+  # Competitor usernames
+  sed -i '' 's/@competitor_example_1/@competitor_1/g' "$file" 2>/dev/null || true
+  sed -i '' 's/@competitor_example_2/@competitor_2/g' "$file" 2>/dev/null || true
+
+  # Email usernames
+  sed -i '' 's/YOUR_EMAIL_USERNAME_2/{{USERNAME_2}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_EMAIL_USERNAME_1/{{USERNAME_1}}/g' "$file" 2>/dev/null || true
+
+  # Financial details
+  sed -i '' 's/\$YOUR_SUBSCRIPTION_COST/\${{SUBSCRIPTION_COST}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/YOUR_MAIN_INCOME_SOURCE/{{MAIN_INCOME_SOURCE}}/g' "$file" 2>/dev/null || true
+  sed -i '' 's/\$YOUR_MAIN_INCOME/\${{MAIN_INCOME}}/g' "$file" 2>/dev/null || true
+
+  # Subscriber data (real handles)
+  sed -i '' 's/@subscriber_example_1/@subscriber_1/g' "$file" 2>/dev/null || true
+  sed -i '' 's/@subscriber_example_2/@subscriber_2/g' "$file" 2>/dev/null || true
+
+  # Currency and amounts
+  sed -i '' 's/YOUR_LOCAL_CURRENCY/{{LOCAL_CURRENCY}}/g' "$file" 2>/dev/null || true
+
+done
+
+echo "=== Depersonalization complete ==="
+
+# Verification - check for remaining personal data
+echo ""
+echo "=== Verification: scanning for remaining personal data ==="
+LEAKS=0
+
+check_leak() {
+  local pattern="$1"
+  local label="$2"
+  local found
+  found=$(grep -rl "$pattern" "$TARGET" --include="*.md" --include="*.sh" --include="*.txt" --include="*.yaml" --include="*.yml" --include="*.example" 2>/dev/null | grep -v depersonalize.sh || true)
+  if [ -n "$found" ]; then
+    echo "⚠️  LEAK [$label]: $pattern found in:"
+    echo "$found" | head -5
+    LEAKS=$((LEAKS + 1))
+  fi
+}
+
+# Add your own leak checks here
+# check_leak "YOUR_REAL_DATA" "LABEL"
+
+if [ "$LEAKS" -eq 0 ]; then
+  echo "✅ No personal data leaks found!"
+else
+  echo "❌ Found $LEAKS leak(s) - review above"
+fi

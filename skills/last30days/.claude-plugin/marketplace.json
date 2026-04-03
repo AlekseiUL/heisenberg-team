@@ -1,0 +1,16 @@
+{
+  "name": "last30days",
+  "owner": {
+    "name": "{{CONTRIBUTOR}}",
+    "url": "https://github.com/{{CONTRIBUTOR}}"
+  },
+  "metadata": {
+    "description": "Research any topic from the last 30 days across Reddit, X, and the web"
+  },
+  "plugins": [
+    {
+      "name": "last30days",
+      "source": "."
+    }
+  ]
+}

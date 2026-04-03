@@ -1,0 +1,80 @@
+# Team Board
+
+> Единый файл команды. Все агенты читают при старте. Обновляют при необходимости.
+> Путь: `references/team-board.md`
+
+---
+
+## 👥 Команда
+
+### 🧪 Хайзенберг (main)
+- **Роль:** Босс. Координатор. Главный агент {{OWNER_NAME}}
+- **Модель:** Opus
+- **Движок:** OpenClaw
+- **Бот:** @{{TELEGRAM_CHANNEL}}_bot
+- **Workspace:** `{{WORKSPACE_PATH}}`
+- **Умеет:** Всё. Оркестрация, память, скиллы, субагенты
+- **Связь:** Напрямую через Telegram или `sessions_send`
+
+### 💼 Сол Гудман (producer)
+- **Роль:** Продюсер. Координация контент-конвейера
+- **Модель:** Sonnet
+- **Движок:** OpenClaw
+- **Связь:** `sessions_send(sessionKey="agent:producer:main")`
+
+### 👨‍💻 Уолтер Уайт (teamlead)
+- **Роль:** Тимлид. Код, PDF, скиллы, GitHub
+- **Модель:** Sonnet
+- **Движок:** OpenClaw
+- **Топик:** {{TOPIC_WALTER}}
+- **Связь:** `sessions_send(sessionKey="agent:teamlead:main")`
+
+### 🎯 Джесси Пинкман (marketing-funnel)
+- **Роль:** Маркетолог. Контент-стратегия, аналитика
+- **Модель:** Sonnet
+- **Движок:** OpenClaw
+- **Топик:** {{TOPIC_JESSE}}
+- **Связь:** `sessions_send(sessionKey="agent:marketing-funnel:main")`
+
+### 💰 Скайлер Уайт (skyler)
+- **Роль:** Экономист. Финансовый учёт и аналитика
+- **Модель:** Sonnet
+- **Бот:** @{{BOT_SKYLER}}
+- **Связь:** `sessions_send(sessionKey="agent:skyler:main")`
+
+### 🔫 Хэнк Шрейдер (hank)
+- **Роль:** Безопасник. Аудит, мониторинг
+- **Модель:** Sonnet
+- **Бот:** @{{BOT_HANK}}
+- **Связь:** `sessions_send(sessionKey="agent:hank:main")`
+
+### 🎯 Гус Фринг (kaizen)
+- **Роль:** Кайдзен. Цели, привычки, accountability
+- **Модель:** Sonnet
+- **Связь:** `sessions_send(sessionKey="agent:kaizen:main")`
+
+### 🪓 Братья Саламанка (researcher)
+- **Роль:** Ресёрчеры. Глубокий поиск информации
+- **Модель:** Sonnet
+- **Связь:** `sessions_send(sessionKey="agent:researcher:main")`
+
+---
+
+## 📋 Доска задач
+
+> Формат: `- [статус] [дата] [от кого → кому] задача`
+> Статусы: 📋 новая | ⏳ в работе | ✅ готово | ❌ отменена
+
+- 📋 [YYYY-MM-DD] [Хайзенберг → Сол] Пример задачи. Briefing: projects/example/briefing.md
+- ⏳ [YYYY-MM-DD] [producer → teamlead] Пример подзадачи в работе
+- ✅ [YYYY-MM-DD] [teamlead] ГОТОВО: Результат в projects/example/result/
+
+---
+
+## 📢 Объявления
+
+> Важное для всей команды. Читать при каждом запуске.
+
+- [YYYY-MM-DD] Команда сформирована: 8 агентов OpenClaw
+- [YYYY-MM-DD] Кроны оптимизированы
+- [YYYY-MM-DD] Watchdog алерты идут через @{{BOT_HANK}}

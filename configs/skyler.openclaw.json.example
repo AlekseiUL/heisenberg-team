@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "name": "Skyler",
+  "model": {
+    "default": "anthropic/claude-sonnet-4-5",
+    "thinking": "adaptive"
+  },
+  "apiKeys": {
+    "anthropic": "{{ANTHROPIC_API_KEY}}",
+    "openai": "{{OPENAI_API_KEY}}"
+  },
+  "memory": {
+    "enabled": true,
+    "provider": "local",
+    "embedding": {
+      "provider": "openai",
+      "model": "text-embedding-3-small"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "telegram": {
+        "enabled": true,
+        "config": {
+          "botToken": "{{TELEGRAM_BOT_TOKEN}}",
+          "authorizedSenders": ["{{OWNER_TELEGRAM_ID}}"]
+        }
+      }
+    }
+  },
+  "agents": {
+    "remoteAgents": {
+      "heisenberg": {
+        "sessionKey": "agent:main:main",
+        "description": "Boss — main user-facing agent, escalations"
+      },
+      "saul": {
+        "sessionKey": "agent:producer:main",
+        "description": "Producer — coordinates content pipeline, ОТК, delivery"
+      },
+      "walter": {
+        "sessionKey": "agent:teamlead:main",
+        "description": "Tech lead — code, files, complex technical tasks"
+      },
+      "jesse": {
+        "sessionKey": "agent:marketing-funnel:main",
+        "description": "Marketing — funnels, CTR, analytics, copywriting"
+      },
+      "hank": {
+        "sessionKey": "agent:hank:main",
+        "description": "Security — audits, monitoring, QA"
+      },
+      "gus": {
+        "sessionKey": "agent:kaizen:main",
+        "description": "Kaizen — goals, habits, Obsidian, optimization"
+      },
+      "twins": {
+        "sessionKey": "agent:researcher:main",
+        "description": "Research — web search, monitoring, data gathering"
+      }
+    }
+  },
+  "workspace": {
+    "path": "~/openclaw-agents/skyler"
+  },
+  "heartbeat": {
+    "enabled": true,
+    "intervalMinutes": 30
+  },
+  "exec": {
+    "defaultTimeoutSeconds": 30
+  }
+}
