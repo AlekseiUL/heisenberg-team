@@ -133,6 +133,7 @@ bash scripts/deploy-team.sh
 ## Documentation
 
 - [Your First Task](docs/first-task.md) - step-by-step walkthrough
+- [Agent Onboarding](docs/agent-onboarding.md) - configure agents on first launch
 - [Architecture](docs/architecture.md) - how agents communicate
 - [Agent Roles](docs/agent-roles.md) - what each agent does
 - [Linux Setup](docs/linux-setup.md) - running on Ubuntu/Debian

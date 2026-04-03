@@ -102,6 +102,7 @@ heisenberg-team/
 
 ## Документация
 
+- [Онбординг агентов](docs/agent-onboarding.md) - настройка при первом запуске
 - [Архитектура](docs/architecture.md)
 - [Роли агентов](docs/agent-roles.md)
 - [Установка на Linux](docs/linux-setup.md)
