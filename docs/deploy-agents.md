@@ -11,7 +11,7 @@ What you'll build: **8 specialized AI agents** that communicate via `sessions_se
 | Setup time | ~30-45 minutes for full team |
 | Minimum setup | ~10 minutes (Heisenberg only) |
 
-Each agent = **separate OpenClaw instance + Telegram bot + workspace directory**.
+All agents run inside **one OpenClaw gateway** as separate agent sessions. Each agent has its own workspace directory, memory, crons, and personality — but they share a single gateway process.
 
 ---
 
@@ -143,33 +143,21 @@ Then **edit the config** and replace placeholders:
 
 ## Step 4: Start Agents (5 min)
 
-### Start a single agent:
+### Start the gateway:
 
 ```bash
-cd ~/openclaw-agents/heisenberg
 openclaw gateway start
 ```
 
-### Start all agents at once:
+One gateway runs all agents. No need to start each separately.
+
+### Verify it's running:
 
 ```bash
-bash ~/Desktop/heisenberg-team/scripts/start-team.sh
+openclaw status
 ```
 
-### Verify agents are running:
-
-```bash
-# Check status of a specific agent
-cd ~/openclaw-agents/heisenberg && openclaw status
-
-# Check all agents
-for agent in heisenberg saul walter jesse skyler hank gus twins; do
-  echo -n "$agent: "
-  cd ~/openclaw-agents/$agent && openclaw status 2>/dev/null || echo "not running"
-done
-```
-
-> ⚠️ Each agent runs its own gateway on a different port. Ports are auto-assigned by OpenClaw — no manual port configuration needed.
+> ✅ All agents share one gateway. No need to run multiple processes or manage ports.
 
 ---
 
@@ -276,7 +264,7 @@ Heisenberg Bot ──────────── delegates via sessions_send 
       ├──► Gus (Kaizen)             agent:kaizen:main           Goals, habits, Obsidian    │
       └──► Twins (Research)         agent:researcher:main       Web search, monitoring     │
                                                                                            │
-Each agent: own Telegram bot + workspace + vector memory + crons ◄──────────────────────┘
+All agents share one gateway — each has own workspace + memory + crons ◄────────────────┘
 ```
 
 ---
@@ -285,9 +273,9 @@ Each agent: own Telegram bot + workspace + vector memory + crons ◄────
 
 | Problem | Solution |
 |---------|----------|
-| Agent not responding | `cd ~/openclaw-agents/<agent> && openclaw status` |
-| `sessions_send` fails | Verify target agent gateway is running |
-| Port conflict | OpenClaw auto-assigns ports; check `openclaw status` for port |
+| Agent not responding | `openclaw status` — check gateway is running |
+| `sessions_send` fails | Verify agent is configured in `openclaw.json` agents section |
+| Agent not listed | Check agent config in `~/.openclaw/agents/<agent>/` |
 | Memory not working | `openclaw doctor` — checks SQLite WAL mode |
 | Bot not receiving messages | Verify `authorizedSenders` has your numeric Telegram ID |
 | Config not found | Check `~/.openclaw/agents/<agent>/openclaw.json` exists |
@@ -298,21 +286,20 @@ Each agent: own Telegram bot + workspace + vector memory + crons ◄────
 
 ```bash
 # View gateway logs
-cd ~/openclaw-agents/heisenberg
 openclaw gateway logs
 
 # Tail live logs
 openclaw gateway logs --follow
 ```
 
-### Reset an agent
+### Reset an agent session
 
 ```bash
-cd ~/openclaw-agents/heisenberg
-openclaw gateway stop
-# Clear session state (keeps memory)
-rm -f ~/.openclaw/agents/heisenberg/session-*.json
-openclaw gateway start
+# Kill the agent's session (gateway stays running)
+openclaw kill agent:main:main
+
+# Or restart the whole gateway if needed
+openclaw gateway restart
 ```
 
 ---
