@@ -124,7 +124,7 @@ graph TB
 
 - [Node.js](https://nodejs.org/) v18+
 - [OpenClaw](https://github.com/openclaw/openclaw) (`npm install -g openclaw`)
-- API-ключ хотя бы одного LLM-провайдера (Anthropic, OpenAI, Google)
+- API-ключ хотя бы одного LLM-провайдера (Anthropic, OpenAI, Google, DeepSeek)
 - Telegram-бот токен (опционально, для уведомлений через [@BotFather](https://t.me/BotFather))
 
 ### Системные требования
@@ -193,7 +193,7 @@ heisenberg-team/
 ## Документация
 
 - [Апгрейд с одного агента](docs/upgrade-from-single-agent.md) - миграция с single-agent setup
-- [Поддерживаемые провайдеры](SETUP.md#supported-llm-providers) - Anthropic, OpenAI, Google, Ollama
+- [Поддерживаемые провайдеры](SETUP.md#supported-llm-providers) - Anthropic, OpenAI, Google, DeepSeek, Ollama
 - [Онбординг агентов](docs/agent-onboarding.md) - настройка при первом запуске
 - [Архитектура](docs/architecture.md)
 - [Роли агентов](docs/agent-roles.md)

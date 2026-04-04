@@ -288,7 +288,7 @@ check_gateway() {
 
     if [ "$success" -eq 0 ]; then
         send_alert "gateway_health" \
-            "Gateway не отвечает! ${GATEWAY_RETRY_COUNT} попыток неудачно. URL: $gateway_url. Перезапуск: launchctl kickstart -k gui/$(id -u)/ai.openclaw.gateway" \
+            "Gateway не отвечает! ${GATEWAY_RETRY_COUNT} попыток неудачно. URL: $gateway_url. Перезапуск: openclaw gateway restart" \
             "critical"
     fi
 }

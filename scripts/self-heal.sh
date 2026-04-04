@@ -191,15 +191,36 @@ except Exception as e:
 }
 
 # ============ 7. BACKUP GATEWAYS ============
+# Cross-platform service restart helper
+restart_service() {
+  local svc="$1"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    launchctl kickstart "gui/$(id -u)/$svc" 2>/dev/null
+  elif command -v systemctl &>/dev/null; then
+    systemctl --user restart "$svc" 2>/dev/null || true
+  fi
+}
+
+get_service_pid() {
+  local svc="$1"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    launchctl list "$svc" 2>/dev/null | grep '"PID"' | grep -o '[0-9]*' || echo ""
+  elif command -v systemctl &>/dev/null; then
+    systemctl --user show -p MainPID "$svc" 2>/dev/null | cut -d= -f2 || echo ""
+  else
+    echo ""
+  fi
+}
+
 check_agents() {
   for svc in com.{{YOUR_BRAND}}.gateway-backup com.{{YOUR_BRAND}}.gateway; do
     local pid
-    pid=$(launchctl list "$svc" 2>/dev/null | grep '"PID"' | grep -o '[0-9]*' || echo "")
-    if [ -z "$pid" ]; then
-      launchctl kickstart gui/$(id -u)/$svc 2>/dev/null
+    pid=$(get_service_pid "$svc")
+    if [ -z "$pid" ] || [ "$pid" = "0" ]; then
+      restart_service "$svc"
       sleep 3
-      pid=$(launchctl list "$svc" 2>/dev/null | grep '"PID"' | grep -o '[0-9]*' || echo "")
-      if [ -n "$pid" ]; then
+      pid=$(get_service_pid "$svc")
+      if [ -n "$pid" ] && [ "$pid" != "0" ]; then
         alert "🤖 $svc был мёртв → запущен (PID $pid) ✅"
         FIXED=$((FIXED+1))
       fi

@@ -27,6 +27,37 @@ restart_gateway_service() {
   fi
 }
 
+# Cross-platform service list
+service_list() {
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    launchctl list 2>/dev/null || true
+  elif command -v systemctl &>/dev/null; then
+    systemctl --user list-units --type=service 2>/dev/null || true
+  fi
+}
+
+service_has() {
+  local label="$1"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    launchctl list 2>/dev/null | grep -q "$label"
+  elif command -v systemctl &>/dev/null; then
+    systemctl --user is-active "$label" &>/dev/null
+  else
+    return 1
+  fi
+}
+
+service_get_pid() {
+  local label="$1"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    launchctl list 2>/dev/null | grep "$label" | awk '{print $1}'
+  elif command -v systemctl &>/dev/null; then
+    systemctl --user show -p MainPID "$label" 2>/dev/null | cut -d= -f2
+  else
+    echo "-"
+  fi
+}
+
 # ==================== CONFIG ====================
 CONFIG_FILE="$HOME/.openclaw/openclaw.json"
 DB_MAIN="$HOME/.openclaw/memory/main.sqlite"
@@ -126,16 +157,16 @@ echo ""
 
 # 1. Gateway
 check_start "Gateway"
-if launchctl list | grep -q "$GATEWAY_LABEL"; then
-    PID=$(launchctl list | grep "$GATEWAY_LABEL" | awk '{print $1}')
+if service_has "$GATEWAY_LABEL"; then
+    PID=$(service_get_pid "$GATEWAY_LABEL")
     if curl -sf http://127.0.0.1:$EXPECTED_PORT/health >/dev/null 2>&1; then
         check_ok "PID $PID"
     else
-        # Try to kickstart
-        launchctl kickstart -k "gui/$(id -u)/$GATEWAY_LABEL" >/dev/null 2>&1
+        # Try to restart
+        restart_gateway_service "$GATEWAY_LABEL" >/dev/null 2>&1
         sleep 2
         if curl -sf http://127.0.0.1:$EXPECTED_PORT/health >/dev/null 2>&1; then
-            check_fixed "Restarted" "Gateway kickstarted"
+            check_fixed "Restarted" "Gateway restarted"
         else
             check_fail "Health check failed" "Gateway not responding"
         fi
@@ -181,7 +212,7 @@ if grep -q '"jobs"' /tmp/openclaw-cli-test.json 2>/dev/null; then
 else
     if echo "$CLI_TEST" | grep -qi "signature invalid"; then
         # Signature mismatch - restart gateway
-        launchctl kickstart -k "gui/$(id -u)/$GATEWAY_LABEL" >/dev/null 2>&1
+        restart_gateway_service "$GATEWAY_LABEL" >/dev/null 2>&1
         sleep 3
         CLI_RETRY=$(openclaw cron list --json 2>&1)
         if echo "$CLI_RETRY" | grep -q '"jobs"'; then
@@ -816,23 +847,22 @@ DOCTOR_PID=""
 
 # D1. Doctor process
 check_start "Doctor process"
-DOCTOR_LIST=$(launchctl list 2>/dev/null || true)
-if echo "$DOCTOR_LIST" | grep -q "$DOCTOR_LABEL"; then
-    DOCTOR_PID=$(echo "$DOCTOR_LIST" | grep "$DOCTOR_LABEL" | awk '{print $1}')
-    if [ "$DOCTOR_PID" != "-" ] && [ -n "$DOCTOR_PID" ]; then
+if service_has "$DOCTOR_LABEL"; then
+    DOCTOR_PID=$(service_get_pid "$DOCTOR_LABEL")
+    if [ "$DOCTOR_PID" != "-" ] && [ -n "$DOCTOR_PID" ] && [ "$DOCTOR_PID" != "0" ]; then
         check_ok "PID $DOCTOR_PID"
     else
-        launchctl kickstart -k "gui/$(id -u)/$DOCTOR_LABEL" >/dev/null 2>&1
+        restart_gateway_service "$DOCTOR_LABEL" >/dev/null 2>&1
         sleep 3
-        DOCTOR_PID=$(launchctl list | grep "$DOCTOR_LABEL" | awk '{print $1}')
-        if [ "$DOCTOR_PID" != "-" ] && [ -n "$DOCTOR_PID" ]; then
+        DOCTOR_PID=$(service_get_pid "$DOCTOR_LABEL")
+        if [ "$DOCTOR_PID" != "-" ] && [ -n "$DOCTOR_PID" ] && [ "$DOCTOR_PID" != "0" ]; then
             check_fixed "Restarted PID $DOCTOR_PID" "Doctor was not running"
         else
-            check_fail "Won't start" "Doctor LaunchAgent failed"
+            check_fail "Won't start" "Doctor service failed"
         fi
     fi
 else
-    check_fail "Not installed" "Doctor LaunchAgent missing"
+    check_fail "Not installed" "Doctor service missing"
 fi
 
 # D2. Doctor Telegram enabled + allowFrom
@@ -878,7 +908,7 @@ with open('$DOCTOR_CONFIG', 'w') as f:
     json.dump(data, f, indent=2, ensure_ascii=False)
 " 2>/dev/null
         # Restart doctor to pick up fix
-        launchctl kickstart -k "gui/$(id -u)/$DOCTOR_LABEL" >/dev/null 2>&1
+        restart_gateway_service "$DOCTOR_LABEL" >/dev/null 2>&1
         check_fixed "Restored TG auth + restarted" "Doctor TG was broken: ${DOC_TG#FAIL:}"
     else
         check_fail "Can't check" "Python error"

@@ -93,7 +93,14 @@ track_usage() {
   
   # Gateway uptime (есть ли PID)
   local gw_pid
-  gw_pid=$(launchctl list ai.openclaw.gateway 2>/dev/null | grep '"PID"' | grep -oE '[0-9]+' || echo "DOWN")
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    gw_pid=$(launchctl list ai.openclaw.gateway 2>/dev/null | grep '"PID"' | grep -oE '[0-9]+' || echo "DOWN")
+  elif command -v systemctl &>/dev/null; then
+    gw_pid=$(systemctl --user show -p MainPID openclaw-gateway 2>/dev/null | cut -d= -f2 || echo "DOWN")
+    [ "$gw_pid" = "0" ] && gw_pid="DOWN"
+  else
+    gw_pid="N/A"
+  fi
   
   echo "$(date '+%Y-%m-%d %H:%M') | gw:${gw_pid} | rate_errs:${today_errors} | auth_errs:${auth_errors}" >> "$USAGE_LOG"
 }

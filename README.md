@@ -30,7 +30,7 @@
 
 - [Node.js](https://nodejs.org/) v18+
 - [OpenClaw](https://github.com/openclaw/openclaw) (`npm install -g openclaw`)
-- API key for at least one LLM provider (Anthropic, OpenAI, Google)
+- API key for at least one LLM provider (Anthropic, OpenAI, Google, DeepSeek)
 - Telegram bot token (optional, for notifications via [@BotFather](https://t.me/BotFather))
 
 ### System Requirements
