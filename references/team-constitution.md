@@ -3,6 +3,9 @@
 > Единственный источник правды. Все агенты читают при старте.
 > Последнее обновление: 2026-04-01
 
+> ⚠️ Этот файл — полная версия. Модульные версии: references/constitution/
+> Агентам рекомендуется загружать только нужные модули для экономии контекста.
+
 ---
 
 ## 1. Цепочка работы
@@ -358,15 +361,22 @@ message(action=send, channel=telegram, to={{OWNER_TELEGRAM_ID}}, message="Гот
 
 ## 11.3 Model Routing — выбор модели
 
+Модельная стратегия (3 уровня):
+- Level 1 (Opus): Heisenberg, Saul — стратегия, координация, user-facing
+- Level 2 (Sonnet): Walter — код, PDF, технически сложные задачи
+- Level 3 (Haiku): Jesse, Skyler, Hank, Gus, Twins — рутинные рабочие задачи
+- Cron (Flash): ВСЕ cron jobs без исключений — gemini-2.5-flash
+
 Правила выбора модели при создании субагента (sessions_spawn):
 
 | Задача | Модель (алиас) | Полный ID |
 |--------|---------------|-----------|
 | Разговор с пользователем, стратегия, финальный копирайтинг | `opus46` | anthropic/claude-opus-4-6 |
-| Ресёрч, парсинг, саммари, черновики, аналитика | `sonnet46` | anthropic/claude-sonnet-4-6 |
-| Кроны (автоматические задачи) | — | `anthropic/claude-sonnet-4-6` (полный ID, НЕ алиас!) |
+| Код, PDF, технически сложные задачи | `sonnet46` | anthropic/claude-sonnet-4-6 |
+| Маркетинг, финансы, безопасность, ресёрч, цели | `haiku45` | anthropic/claude-haiku-4-5 |
+| Кроны (автоматические задачи) | — | `google/gemini-2.5-flash` (полный ID, НЕ алиас!) |
 
-**Сомневаешься → Sonnet 4.6.** Opus — только когда нужна креативность или общение с пользователем.
+**Сомневаешься → Haiku для воркеров, Sonnet для технических задач.** Opus — только когда нужна стратегия или общение с пользователем.
 
 ---
 
@@ -580,6 +590,9 @@ sessions_spawn(task="...", model="sonnet46", runTimeoutSeconds=300)
 | team-constitution.md | Статичный | Этот документ — правила команды |
 | team-board.md | Живой | Доска задач (тикеты ВЗЯЛ → ГОТОВО) |
 | active-projects.md | Живой | Карта активных проектов |
+| constitution/ | Директория | Модульные части конституции для экономии контекста |
+
+**Числовые пороги** — см. `configs/thresholds.yaml`
 
 Обновил файл в `{{WORKSPACE_PATH}}references/` → все агенты видят через симлинк.
 Добавил новый файл → крон создаст симлинки автоматически.
@@ -710,13 +723,17 @@ General principle: when context gets heavy, delegate to subagents rather than do
 
 ## 19. Model Routing Rules
 
-**Opus thinks, Sonnet works.**
+Модельная стратегия (3 уровня):
+- Level 1 (Opus): Heisenberg, Saul — стратегия, координация, user-facing
+- Level 2 (Sonnet): Walter — код, PDF, технически сложные задачи
+- Level 3 (Haiku): Jesse, Skyler, Hank, Gus, Twins — рутинные рабочие задачи
+- Cron (Flash): ВСЕ cron jobs без исключений — gemini-2.5-flash
 
 | Use Case | Model |
 |----------|-------|
-| User-facing conversation | Opus (Heisenberg only) |
-| Subagents (research, parsing, drafts) | Sonnet |
-| ALL cron jobs without exception | `anthropic/claude-sonnet-4-6` (full ID, not alias!) |
-| Background tasks | Sonnet |
+| User-facing conversation, strategy | Opus (Heisenberg, Saul) |
+| Code, PDF, complex technical tasks | Sonnet (Walter) |
+| Marketing, finance, security, research, goals | Haiku (Jesse, Skyler, Hank, Gus, Twins) |
+| ALL cron jobs without exception | `google/gemini-2.5-flash` (full ID, not alias!) |
 
 **Why full model ID for crons?** Aliases may not resolve correctly in scheduled contexts. Always use the full provider/model path.

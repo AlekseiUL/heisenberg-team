@@ -55,8 +55,11 @@ for agent in "${AGENTS[@]}"; do
     echo "✅"
     STARTED=$((STARTED + 1))
   else
-    # openclaw gateway start might not have --detach, try without
-    if cd "$AGENT_DIR" && openclaw gateway start &>/dev/null & then
+    # openclaw gateway start might not have --detach, try in background
+    cd "$AGENT_DIR" && openclaw gateway start &>/dev/null &
+    BG_PID=$!
+    sleep 0.5
+    if kill -0 "$BG_PID" 2>/dev/null; then
       echo "✅ (background)"
       STARTED=$((STARTED + 1))
     else

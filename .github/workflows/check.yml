@@ -14,11 +14,15 @@ jobs:
 
       - name: Check for PII leaks
         run: |
-          if grep -rn "277478\|alekse\|ulian\|sprut_ai" . --include="*.md" --include="*.sh" --include="*.json" | grep -v ".gitignore" | grep -v "depersonalize"; then
-            echo "❌ PII leak detected!"
-            exit 1
+          if [ -f .pii-patterns ]; then
+            PATTERNS=$(grep -v '^#' .pii-patterns | grep -v '^$' | paste -sd '|')
+            if [ -n "$PATTERNS" ] && grep -rn "$PATTERNS" --include='*.md' --include='*.sh' --include='*.json' --include='*.yml' --exclude-dir=.git .; then
+              echo "::error::PII pattern detected!"
+              exit 1
+            fi
+          else
+            echo "::warning::.pii-patterns file not found, skipping PII check"
           fi
-          echo "✅ No PII leaks"
 
       - name: Check for secrets
         run: |

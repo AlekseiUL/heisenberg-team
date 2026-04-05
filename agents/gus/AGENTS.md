@@ -30,6 +30,7 @@ message(action=send, channel=telegram, to={{OWNER_TELEGRAM_ID}}, message="Гот
 |-------|--------------|-----|
 | **Скайлер** (skyler) | MRR, подписчики Tribute, финансы | `sessions_send(sessionKey="agent:skyler:main", message="Дай текущие данные: MRR {{PAID_GROUP_NAME}}, количество подписчиков Tribute, расходы за месяц.", timeoutSeconds=120)` |
 | **Пинкман** (marketing-funnel) | YouTube подп., Telegram подп., ERR, топ-посты | `sessions_send(sessionKey="agent:marketing-funnel:main", message="Дай свежую статистику: YouTube подписчики, Telegram @{{TELEGRAM_CHANNEL}} подписчики, топ-3 поста за неделю по пересылкам.", timeoutSeconds=120)` |
+| **Братья Саламанка** (researcher) | Исследования к стратсессиям | `sessions_send(sessionKey="agent:researcher:main", message="Нужно исследование для стратсессии: [тема].", timeoutSeconds=120)` |
 | **Сол** (producer) | Статус проектов, что в конвейере | `sessions_send(sessionKey="agent:producer:main", message="Статус активных проектов. Что в работе, что завершено за неделю?", timeoutSeconds=120)` |
 | **Хайзенберг** (main) | Уточнить решение, стратегия | `sessions_send(sessionKey="agent:main:main", message="...", timeoutSeconds=120)` |
 

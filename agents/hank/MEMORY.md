@@ -27,18 +27,18 @@
 > Compare against your known baseline of LaunchAgents. Document your count on first audit.
 - ai.openclaw.gateway
 - ai.openclaw.system-health
-- com.{{YOUR_BRAND}}.backup
-- com.{{YOUR_BRAND}}.daemon
-- com.{{YOUR_BRAND}}.monitor
-- com.{{YOUR_BRAND}}.memory-decay
+- com.{{OWNER_USERNAME}}.backup
+- com.{{OWNER_USERNAME}}.daemon
+- com.{{OWNER_USERNAME}}.monitor
+- com.{{OWNER_USERNAME}}.memory-decay
 - com.google.GoogleUpdater.wake
 - com.google.keystone.agent
 - com.google.keystone.xpcservice
-- com.{{YOUR_BRAND}}.gateway
-- com.{{YOUR_BRAND}}.gateway-alt
+- com.{{OWNER_USERNAME}}.gateway
+- com.{{OWNER_USERNAME}}.gateway-alt
 - com.openclaw.watchdog
 - com.whisper.server
-- com.{{YOUR_BRAND}}.gateway-backup
+- com.{{OWNER_USERNAME}}.gateway-backup
 - com.telegram-mcp.server (MCP для чтения Telegram, localhost:3000, добавлен 2026-03-16)
 - com.openclaw.file-hook-watcher (file-hook-watcher.sh, добавлен {{DATE_ADDED}}, HOOKS-TEST)
 

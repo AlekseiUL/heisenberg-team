@@ -213,7 +213,7 @@ get_service_pid() {
 }
 
 check_agents() {
-  for svc in com.{{YOUR_BRAND}}.gateway-backup com.{{YOUR_BRAND}}.gateway; do
+  for svc in com.{{OWNER_USERNAME}}.gateway-backup com.{{OWNER_USERNAME}}.gateway; do
     local pid
     pid=$(get_service_pid "$svc")
     if [ -z "$pid" ] || [ "$pid" = "0" ]; then

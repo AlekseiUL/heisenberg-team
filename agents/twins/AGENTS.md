@@ -30,8 +30,8 @@ message(action=send, channel=telegram, to={{OWNER_TELEGRAM_ID}}, message="Гот
 | Джесси Пинкман | `agent:marketing-funnel:main` | Маркетолог. Использует мои данные |
 | Уолтер Уайт | `agent:teamlead:main` | Тимлид. Может запросить ресёрч по технологии |
 | Скайлер Уайт | `agent:skyler:main` | Финансы |
-| Хэнк Шрейдер | `agent:hank:main` | Безопасность |
-| Гус Фринг | `agent:kaizen:main` | Цели, Obsidian |
+| Хэнк Шрейдер | `agent:hank:main` | Безопасность. Передаю данные разведки для security аудитов |
+| Гус Фринг | `agent:kaizen:main` | Цели, Obsidian. Передаю данные исследований для стратегических сессий |
 
 ---
 

@@ -29,7 +29,7 @@ message(action=send, channel=telegram, to={{OWNER_TELEGRAM_ID}}, message="Гот
 | **Хайзенберг** (main) | Стратегия, утверждения |
 | **Сол** (producer) | Координация контента |
 | **Уолтер** (teamlead) | Код/файлы если нужна техника |
-| **Скайлер** (skyler) | Финансы, unit economics |
+| **Скайлер** (`agent:skyler:main`) | Финансы, unit economics. Запрашиваю финансовые данные по кампаниям |
 | **Гус** (kaizen) | Контекст по WIG/стратегии |
 
 ---
