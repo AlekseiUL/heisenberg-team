@@ -1,0 +1,4 @@
+# Add your PII patterns for checking (one per line)
+# Examples: part of phone number, username, real name
+# my_username
+# 1234567

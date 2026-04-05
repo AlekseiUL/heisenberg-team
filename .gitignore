@@ -24,6 +24,9 @@ package-lock.json
 CLAUDE.md
 CAPABILITIES.md
 
+# PII patterns file (personal identifiers - do not commit)
+.pii-patterns
+
 # Depersonalization script (contains PII-to-placeholder mapping)
 scripts/depersonalize.sh
 
