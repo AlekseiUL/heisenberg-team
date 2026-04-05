@@ -2,7 +2,7 @@
   "version": 1,
   "name": "Saul",
   "model": {
-    "default": "{{AGENT_MODEL}}",
+    "default": "{{COORDINATOR_MODEL}}",
     "thinking": "adaptive"
   },
   "apiKeys": {

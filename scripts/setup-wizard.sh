@@ -214,6 +214,7 @@ declare -A REPLACEMENTS=(
   ["{{WORKSPACE_PATH}}"]="${WORKSPACE_PATH:-~/workspace/}"
   ["{{PROJECTS_PATH}}"]="${WORKSPACE_PATH:-~/workspace/}projects/"
   ["{{MAIN_MODEL}}"]="${MAIN_MODEL:-anthropic/claude-opus-4-5}"
+  ["{{COORDINATOR_MODEL}}"]="${COORDINATOR_MODEL:-${MAIN_MODEL:-anthropic/claude-opus-4-6}}"
   ["{{AGENT_MODEL}}"]="${AGENT_MODEL:-anthropic/claude-sonnet-4-5}"
   ["{{EMBEDDING_PROVIDER}}"]="${EMBEDDING_PROVIDER:-openai}"
   ["{{EMBEDDING_MODEL}}"]="${EMBEDDING_MODEL:-text-embedding-3-small}"
