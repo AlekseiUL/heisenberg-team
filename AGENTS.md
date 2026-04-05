@@ -64,6 +64,8 @@ PDF → `nano-pdf` | Ресёрч → `deep-research-pro` | Reddit/X → `last30
 
 ## Context Management (graduated)
 
+**Числовые пороги — см. `configs/thresholds.yaml`**
+
 **Каждые 5-7 ответов → `session_status` → проверка %.**
 
 | Контекст | Действие |

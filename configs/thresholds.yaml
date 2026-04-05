@@ -1,0 +1,35 @@
+# Heisenberg Team — Centralized Thresholds
+# All magic numbers in one place
+
+context:
+  warn_percent: 60
+  delegate_percent: 60
+  stop_percent: 70
+  alert_percent: 75
+  critical_percent: 80
+
+timeouts:
+  session_send_seconds: 120
+  spawn_seconds: 300
+  exec_default_seconds: 30
+  silence_max_seconds: 60
+  no_response_warn_seconds: 60
+  no_response_escalate_seconds: 120
+  stuck_ticket_hours: 2
+
+retries:
+  tool_error: 1
+  provider_error: 2
+  network_error: 2
+  lock_error: 1
+
+limits:
+  max_parallel_agents: 2
+  max_messages_per_project: 5
+  trash_session_threshold_tokens: 50000
+  heartbeat_interval_minutes: 30
+
+cooldowns:
+  provider_retry_first_seconds: 30
+  provider_retry_second_seconds: 60
+  lock_retry_seconds: 10

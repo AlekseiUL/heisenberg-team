@@ -590,6 +590,9 @@ sessions_spawn(task="...", model="sonnet46", runTimeoutSeconds=300)
 | team-constitution.md | Статичный | Этот документ — правила команды |
 | team-board.md | Живой | Доска задач (тикеты ВЗЯЛ → ГОТОВО) |
 | active-projects.md | Живой | Карта активных проектов |
+| constitution/ | Директория | Модульные части конституции для экономии контекста |
+
+**Числовые пороги** — см. `configs/thresholds.yaml`
 
 Обновил файл в `{{WORKSPACE_PATH}}references/` → все агенты видят через симлинк.
 Добавил новый файл → крон создаст симлинки автоматически.

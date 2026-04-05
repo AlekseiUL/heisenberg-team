@@ -24,18 +24,24 @@ This directory contains **example OpenClaw configuration files** for each agent 
    ```
    Should return nothing.
 
+## Thresholds
+
+All numeric thresholds (timeouts, retries, context limits) are centralized in:
+- `configs/thresholds.yaml` — see this file for all magic numbers
+
 ## Files
 
 | File | Agent | Model |
 |------|-------|-------|
-| `heisenberg.openclaw.json.example` | Heisenberg (Boss) | claude-opus-4-5 |
-| `saul.openclaw.json.example` | Saul Goodman (Producer) | claude-sonnet-4-5 |
-| `walter.openclaw.json.example` | Walter White (Tech Lead) | claude-sonnet-4-5 |
-| `jesse.openclaw.json.example` | Jesse Pinkman (Marketing) | claude-sonnet-4-5 |
-| `skyler.openclaw.json.example` | Skyler White (Finance) | claude-sonnet-4-5 |
-| `hank.openclaw.json.example` | Hank Schrader (Security) | claude-sonnet-4-5 |
-| `gus.openclaw.json.example` | Gus Fring (Kaizen) | claude-sonnet-4-5 |
-| `twins.openclaw.json.example` | The Cousins (Research) | claude-sonnet-4-5 |
+| `heisenberg.openclaw.json.example` | Heisenberg (Boss) | MAIN_MODEL (Opus) |
+| `saul.openclaw.json.example` | Saul Goodman (Producer) | COORDINATOR_MODEL (Opus) |
+| `walter.openclaw.json.example` | Walter White (Tech Lead) | TECH_MODEL (Sonnet) |
+| `jesse.openclaw.json.example` | Jesse Pinkman (Marketing) | WORKER_MODEL (Haiku) |
+| `skyler.openclaw.json.example` | Skyler White (Finance) | WORKER_MODEL (Haiku) |
+| `hank.openclaw.json.example` | Hank Schrader (Security) | WORKER_MODEL (Haiku) |
+| `gus.openclaw.json.example` | Gus Fring (Kaizen) | WORKER_MODEL (Haiku) |
+| `twins.openclaw.json.example` | The Cousins (Research) | WORKER_MODEL (Haiku) |
+| `thresholds.yaml` | All agents | Centralized thresholds |
 
 ## Design Notes
 
