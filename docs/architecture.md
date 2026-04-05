@@ -51,11 +51,11 @@ sessions_send(
 Heisenberg        —        →      →      —      —      —     —     —
 Saul              ←        —      →      →      →      →     →     →
 Walter            ←        ←      —      —      —      —     —     —
-Jesse             ←        ←      —      —      —      —     —     ↔
-Skyler            ←        ←      —      —      —      —     ↔     —
-Hank              ←        ←      —      —      —      —     —     —
-Gus               ←        ←      —      —      ↔      —     —     —
-Twins             ←        ←      —      ↔      —      —     —     —
+Jesse             ←        ←      —      —      ↔      —     —     ↔
+Skyler            ←        ←      —      ↔      —      —     ↔     —
+Hank              ←        ←      —      —      —      —     —     ↔
+Gus               ←        ←      —      —      ↔      —     —     ↔
+Twins             ←        ←      —      ↔      —      ↔     ↔     —
 
 → = calls  ← = reports to  ↔ = bidirectional (request-response)
 ```
@@ -64,6 +64,9 @@ Twins             ←        ←      —      ↔      —      —     —    
 - All specialists report results to **Saul** (coordinator) and escalations to **Heisenberg** (boss)
 - **Jesse ↔ Twins**: Jesse requests competitive research from Twins
 - **Skyler ↔ Gus**: Gus requests financial data, Skyler responds
+- **Jesse ↔ Skyler**: exchange of financial and marketing metrics
+- **Hank ↔ Twins**: Hank requests intelligence data for security audits
+- **Gus ↔ Twins**: Gus requests research data for strategic sessions
 - `sessions_send` is a wake-up signal only. Task details go to the **board** and **briefings**
 
 ## Board-First Protocol
