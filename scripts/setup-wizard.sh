@@ -110,8 +110,12 @@ LLM_CHOICE="${LLM_CHOICE:-1}"
 case "$LLM_CHOICE" in
   1)
     LLM_PROVIDER="anthropic"
-    MAIN_MODEL="anthropic/claude-opus-4-5"
-    AGENT_MODEL="anthropic/claude-sonnet-4-5"
+    MAIN_MODEL="anthropic/claude-opus-4-6"
+    COORDINATOR_MODEL="anthropic/claude-opus-4-6"
+    TECH_MODEL="anthropic/claude-sonnet-4-6"
+    WORKER_MODEL="anthropic/claude-haiku-4-5"
+    CRON_MODEL="google/gemini-2.5-flash"
+    AGENT_MODEL="anthropic/claude-sonnet-4-6"
     ask ANTHROPIC_API_KEY "Anthropic API key (or 'max' for Claude Max subscription)" "" true
     if [ "$ANTHROPIC_API_KEY" = "max" ]; then
       ANTHROPIC_API_KEY=""
@@ -121,35 +125,59 @@ case "$LLM_CHOICE" in
   2)
     LLM_PROVIDER="openai"
     MAIN_MODEL="openai/gpt-4o"
+    COORDINATOR_MODEL="openai/gpt-4o"
+    TECH_MODEL="openai/gpt-4o"
+    WORKER_MODEL="openai/gpt-4o-mini"
+    CRON_MODEL="openai/gpt-4o-mini"
     AGENT_MODEL="openai/gpt-4o"
     ask OPENAI_API_KEY "OpenAI API key" "" true
     ;;
   3)
     LLM_PROVIDER="google"
     MAIN_MODEL="google/gemini-2.5-pro"
+    COORDINATOR_MODEL="google/gemini-2.5-pro"
+    TECH_MODEL="google/gemini-2.5-pro"
+    WORKER_MODEL="google/gemini-2.5-flash"
+    CRON_MODEL="google/gemini-2.5-flash"
     AGENT_MODEL="google/gemini-2.5-flash"
     ask GOOGLE_API_KEY "Google AI API key" "" true
     ;;
   4)
     LLM_PROVIDER="ollama"
     MAIN_MODEL="ollama/llama3"
+    COORDINATOR_MODEL="ollama/llama3"
+    TECH_MODEL="ollama/llama3"
+    WORKER_MODEL="ollama/llama3"
+    CRON_MODEL="ollama/llama3"
     AGENT_MODEL="ollama/llama3"
     echo -e "  ${CYAN}Make sure Ollama is running: ollama serve${NC}"
     ask OLLAMA_MODEL "Ollama model name" "llama3" false
     MAIN_MODEL="ollama/$OLLAMA_MODEL"
+    COORDINATOR_MODEL="ollama/$OLLAMA_MODEL"
+    TECH_MODEL="ollama/$OLLAMA_MODEL"
+    WORKER_MODEL="ollama/$OLLAMA_MODEL"
+    CRON_MODEL="ollama/$OLLAMA_MODEL"
     AGENT_MODEL="ollama/$OLLAMA_MODEL"
     ;;
   5)
     LLM_PROVIDER="deepseek"
     MAIN_MODEL="deepseek/deepseek-chat"
+    COORDINATOR_MODEL="deepseek/deepseek-chat"
+    TECH_MODEL="deepseek/deepseek-chat"
+    WORKER_MODEL="deepseek/deepseek-chat"
+    CRON_MODEL="deepseek/deepseek-chat"
     AGENT_MODEL="deepseek/deepseek-chat"
     ask DEEPSEEK_API_KEY "DeepSeek API key (from platform.deepseek.com)" "" true
     echo -e "  ${CYAN}Tip: deepseek-reasoner available for complex tasks${NC}"
     ;;
   6)
     LLM_PROVIDER="custom"
-    ask MAIN_MODEL "Main model (provider/model format)" "anthropic/claude-opus-4-5" true
-    AGENT_MODEL="$MAIN_MODEL"
+    ask MAIN_MODEL "Main model — Level 1 Strategic (provider/model)" "anthropic/claude-opus-4-6" true
+    ask COORDINATOR_MODEL "Coordinator model — Level 1 Strategic" "$MAIN_MODEL" false
+    ask TECH_MODEL "Tech model — Level 2 Technical" "anthropic/claude-sonnet-4-6" false
+    ask WORKER_MODEL "Worker model — Level 3 Workers" "anthropic/claude-haiku-4-5" false
+    ask CRON_MODEL "Cron model — Level 4 Background" "google/gemini-2.5-flash" false
+    AGENT_MODEL="$TECH_MODEL"
     ;;
 esac
 
@@ -213,9 +241,12 @@ declare -A REPLACEMENTS=(
   ["{{GITHUB_ORG}}"]="${GITHUB_ORG:-$OWNER_USERNAME}"
   ["{{WORKSPACE_PATH}}"]="${WORKSPACE_PATH:-~/workspace/}"
   ["{{PROJECTS_PATH}}"]="${WORKSPACE_PATH:-~/workspace/}projects/"
-  ["{{MAIN_MODEL}}"]="${MAIN_MODEL:-anthropic/claude-opus-4-5}"
+  ["{{MAIN_MODEL}}"]="${MAIN_MODEL:-anthropic/claude-opus-4-6}"
   ["{{COORDINATOR_MODEL}}"]="${COORDINATOR_MODEL:-${MAIN_MODEL:-anthropic/claude-opus-4-6}}"
-  ["{{AGENT_MODEL}}"]="${AGENT_MODEL:-anthropic/claude-sonnet-4-5}"
+  ["{{TECH_MODEL}}"]="${TECH_MODEL:-anthropic/claude-sonnet-4-6}"
+  ["{{WORKER_MODEL}}"]="${WORKER_MODEL:-anthropic/claude-haiku-4-5}"
+  ["{{CRON_MODEL}}"]="${CRON_MODEL:-google/gemini-2.5-flash}"
+  ["{{AGENT_MODEL}}"]="${AGENT_MODEL:-anthropic/claude-sonnet-4-6}"
   ["{{EMBEDDING_PROVIDER}}"]="${EMBEDDING_PROVIDER:-openai}"
   ["{{EMBEDDING_MODEL}}"]="${EMBEDDING_MODEL:-text-embedding-3-small}"
   ["{{ANTHROPIC_API_KEY}}"]="${ANTHROPIC_API_KEY:-your-anthropic-key}"

@@ -2,7 +2,7 @@
   "version": 1,
   "name": "Walter",
   "model": {
-    "default": "{{AGENT_MODEL}}",
+    "default": "{{TECH_MODEL}}",
     "thinking": "adaptive"
   },
   "apiKeys": {
