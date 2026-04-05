@@ -96,6 +96,22 @@ else
 fi
 
 echo ""
+
+# 7. Check Python dependencies
+echo "=== Checking Python dependencies ==="
+if [ -f requirements.txt ]; then
+  python3 -m pip check 2>/dev/null || echo "WARNING: Some Python dependencies may be missing. Run: pip install -r requirements.txt"
+fi
+
+echo ""
+
+# 8. Check Node.js dependencies
+echo "=== Checking Node.js dependencies ==="
+if [ -f package.json ]; then
+  node -e "require('@marp-team/marp-cli')" 2>/dev/null || echo "WARNING: Node.js dependencies missing. Run: npm install"
+fi
+
+echo ""
 echo "================================="
 if [ "$ERRORS" -eq 0 ] && [ "$WARNINGS" -eq 0 ]; then
   echo -e "${GREEN}✅ All checks passed!${NC}"

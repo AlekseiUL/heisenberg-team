@@ -1,0 +1,20 @@
+{
+  "name": "heisenberg-team",
+  "version": "1.0.0",
+  "description": "Multi-agent AI team on OpenClaw platform",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@marp-team/marp-cli": "^4.0.0",
+    "pptxgenjs": "^3.12.0",
+    "mcp-remote": "^1.0.0"
+  },
+  "scripts": {
+    "start": "bash scripts/start-team.sh",
+    "stop": "bash scripts/stop-team.sh",
+    "test": "bash scripts/smoke-test.sh",
+    "health": "bash scripts/system-health.sh"
+  }
+}
