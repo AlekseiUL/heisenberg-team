@@ -42,6 +42,7 @@ scripts/depersonalize.sh
 # Logs
 *.log
 logs/
+.learnings/
 
 # Sessions
 sessions/
