@@ -17,9 +17,9 @@ fi
 parse_date() {
   local datestr="$1"
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    $(date -j -f "%Y-%m-%d" "$datestr" +%s 2>/dev/null || date -d "$datestr" +%s 2>/dev/null || echo 0)
+    date -j -f "%Y-%m-%d" "$datestr" +%s 2>/dev/null || date -d "$datestr" +%s 2>/dev/null || echo 0
   else
-    date -d "$datestr" +%s 2>/dev/null
+    date -d "$datestr" +%s 2>/dev/null || echo 0
   fi
 }
 

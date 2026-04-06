@@ -37,7 +37,7 @@ for agent in main kaizen teamlead marketing-funnel producer hank skyler; do
     alert_flag="${ALERT_DIR}/.budget-alert-${agent}-${TODAY}"
     if [ ! -f "$alert_flag" ] && [ -n "$TG_BOT_TOKEN" ]; then
       curl -s -X POST "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
-        -d chat_id="{{OWNER_TELEGRAM_ID}}" \
+        -d chat_id="${OWNER_TELEGRAM_ID:-}" \
         -d text="⚠️ Агент ${agent}: ${calls} вызовов за сегодня. Возможный перерасход." \
         -d parse_mode="HTML" > /dev/null 2>&1
       touch "$alert_flag"

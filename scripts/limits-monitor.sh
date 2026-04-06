@@ -33,7 +33,7 @@ ALERT_FLAG="$HOME/.openclaw/logs/.rate-limit-alerted"
 
 source $HOME/.openclaw/scripts/hank-watchdog.env 2>/dev/null || true
 TG_BOT_TOKEN="${HANK_BOT_TOKEN:-}"
-TG_CHAT_ID="{{OWNER_TELEGRAM_ID}}"
+TG_CHAT_ID="${OWNER_TELEGRAM_ID:-}"
 
 log() { echo "$(date '+%Y-%m-%d %H:%M:%S') $1" >> "$SELF_LOG"; }
 

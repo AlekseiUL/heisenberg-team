@@ -11,13 +11,13 @@ WORKSPACE="${WORKSPACE_PATH:-$HOME/workspace}"
 KAIZEN_WORKSPACE="$HOME/kaizen-workspace"
 cd "$WORKSPACE"
 
-python3 - << 'PYEOF'
-import os, re, glob, json, hashlib
+python3 - "$WORKSPACE" "$KAIZEN_WORKSPACE" << 'PYEOF'
+import os, re, sys, glob, json, hashlib
 from pathlib import Path
 from collections import defaultdict
 
-workspace = "${WORKSPACE_PATH:-$HOME/workspace}"
-kaizen_workspace = "$HOME/kaizen-workspace"
+workspace = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/workspace")
+kaizen_workspace = sys.argv[2] if len(sys.argv) > 2 else os.path.expanduser("~/kaizen-workspace")
 problems = []
 warnings = []
 stats = {"skills": 0, "refs": 0, "memory_files": 0, "orphans": 0, "kaizen_issues": 0}

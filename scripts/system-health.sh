@@ -3,12 +3,19 @@
 # Вывод: ALL_OK или PROBLEM|тип|описание|команда_исправления
 set -uo pipefail
 
+WORKSPACE="${WORKSPACE_PATH:-$HOME/workspace}"
 PROBLEMS=0
 
 # === RAM ===
-free_mb=$(vm_stat | awk '/Pages free/ {printf "%d", $3*4096/1024/1024}')
-inactive_mb=$(vm_stat | awk '/Pages inactive/ {printf "%d", $3*4096/1024/1024}')
-available_mb=$((free_mb + inactive_mb))
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  free_mb=$(vm_stat | awk '/Pages free/ {printf "%d", $3*4096/1024/1024}')
+  inactive_mb=$(vm_stat | awk '/Pages inactive/ {printf "%d", $3*4096/1024/1024}')
+  available_mb=$((free_mb + inactive_mb))
+elif command -v free &>/dev/null; then
+  available_mb=$(free -m | awk '/^Mem:/ {print $7}')
+else
+  available_mb=9999  # unknown platform, skip check
+fi
 if [ "$available_mb" -lt 200 ]; then
     echo "PROBLEM|ram|🔴 RAM критично: доступно ${available_mb}MB (< 200MB)|pkill -f 'whisper-server'; docker stop pgadmin-local 2>/dev/null"
     PROBLEMS=$((PROBLEMS+1))
@@ -20,17 +27,17 @@ fi
 # === ДИСК ===
 disk_pct=$(df / | awk 'NR==2 {gsub(/%/,"",$5); print $5}')
 if [ "$disk_pct" -gt 90 ]; then
-    echo "PROBLEM|disk|🔴 Диск критично: занято ${disk_pct}%|bash {{WORKSPACE_PATH}}scripts/night-cleanup.sh"
+    echo "PROBLEM|disk|🔴 Диск критично: занято ${disk_pct}%|bash ${WORKSPACE}/scripts/night-cleanup.sh"
     PROBLEMS=$((PROBLEMS+1))
 elif [ "$disk_pct" -gt 80 ]; then
-    echo "PROBLEM|disk|⚠️ Диск заполнен на ${disk_pct}%|bash {{WORKSPACE_PATH}}scripts/night-cleanup.sh"
+    echo "PROBLEM|disk|⚠️ Диск заполнен на ${disk_pct}%|bash ${WORKSPACE}/scripts/night-cleanup.sh"
     PROBLEMS=$((PROBLEMS+1))
 fi
 
 # === ЛОГИ ===
 log_size_mb=$(du -sm ~/.openclaw/logs/ 2>/dev/null | cut -f1)
 if [ "${log_size_mb:-0}" -gt 50 ]; then
-    echo "PROBLEM|logs|⚠️ Логи: ${log_size_mb}MB (> 50MB)|bash {{WORKSPACE_PATH}}scripts/rotate-logs.sh"
+    echo "PROBLEM|logs|⚠️ Логи: ${log_size_mb}MB (> 50MB)|bash ${WORKSPACE}/scripts/rotate-logs.sh"
     PROBLEMS=$((PROBLEMS+1))
 fi
 
@@ -64,9 +71,9 @@ if command -v docker &>/dev/null && docker ps &>/dev/null 2>&1; then
 fi
 
 # === МУСОР ===
-junk_count=$(find {{WORKSPACE_PATH}} -name "*.bak" -o -name "*.tmp" -o -name "*.swp" 2>/dev/null | grep -v ".git" | wc -l | tr -d ' ')
+junk_count=$(find "$WORKSPACE" -name "*.bak" -o -name "*.tmp" -o -name "*.swp" 2>/dev/null | grep -v ".git" | wc -l | tr -d ' ')
 if [ "$junk_count" -gt 5 ]; then
-    echo "PROBLEM|junk|⚠️ Мусорные файлы: ${junk_count} шт (*.bak, *.tmp)|find {{WORKSPACE_PATH}} -name '*.bak' -o -name '*.tmp' | grep -v .git | xargs rm -f"
+    echo "PROBLEM|junk|⚠️ Мусорные файлы: ${junk_count} шт (*.bak, *.tmp)|find ${WORKSPACE} -name '*.bak' -o -name '*.tmp' | grep -v .git | xargs rm -f"
     PROBLEMS=$((PROBLEMS+1))
 fi
 

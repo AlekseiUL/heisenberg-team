@@ -26,9 +26,9 @@ restart_gateway() {
 }
 
 HEALTH_URL="http://127.0.0.1:18789/health"
-source $HOME/.openclaw/scripts/hank-watchdog.env
-TG_BOT_TOKEN="${HANK_BOT_TOKEN}"
-TG_CHAT_ID="${HANK_CHAT_ID}"
+source $HOME/.openclaw/scripts/hank-watchdog.env 2>/dev/null || true
+TG_BOT_TOKEN="${HANK_BOT_TOKEN:-}"
+TG_CHAT_ID="${HANK_CHAT_ID:-${OWNER_TELEGRAM_ID:-}}"
 LOG_FILE="$HOME/.openclaw/logs/watchdog.log"
 ERR_LOG="$HOME/.openclaw/logs/gateway.err.log"
 OPENCLAW_LOG="/tmp/openclaw/openclaw-$(date +%Y-%m-%d).log"

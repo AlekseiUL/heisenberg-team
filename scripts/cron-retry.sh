@@ -18,7 +18,7 @@ OPENCLAW="/opt/homebrew/bin/openclaw"
 SCRIPTS_DIR="$(dirname "$0")"
 LOG="$HOME/.openclaw/logs/cron-retry.log"
 TG_BOT_TOKEN="${GEMINI_DOCTOR_TOKEN:-}"
-TG_CHAT_ID="${DOCTOR_CHAT_ID:-{{OWNER_TELEGRAM_ID}}}"
+TG_CHAT_ID="${DOCTOR_CHAT_ID:-${OWNER_TELEGRAM_ID:-}}"
 
 source $HOME/.openclaw/doctor.env 2>/dev/null || true
 

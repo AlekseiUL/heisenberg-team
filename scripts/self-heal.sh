@@ -29,7 +29,7 @@ restart_gateway() {
 
 source $HOME/.openclaw/scripts/hank-watchdog.env 2>/dev/null || true
 TG_BOT_TOKEN="${HANK_BOT_TOKEN:-}"
-TG_CHAT_ID="${HANK_CHAT_ID:-{{OWNER_TELEGRAM_ID}}}"
+TG_CHAT_ID="${HANK_CHAT_ID:-${OWNER_TELEGRAM_ID:-}}"
 LOG="$HOME/.openclaw/logs/self-heal.log"
 DB="$HOME/.openclaw/memory/main.sqlite"
 KAIZEN_DB="$HOME/.openclaw/memory/kaizen.sqlite"
@@ -213,7 +213,7 @@ get_service_pid() {
 }
 
 check_agents() {
-  for svc in com.{{OWNER_USERNAME}}.gateway-backup com.{{OWNER_USERNAME}}.gateway; do
+  for svc in "com.${OWNER_USERNAME:-openclaw}.gateway-backup" "com.${OWNER_USERNAME:-openclaw}.gateway"; do
     local pid
     pid=$(get_service_pid "$svc")
     if [ -z "$pid" ] || [ "$pid" = "0" ]; then

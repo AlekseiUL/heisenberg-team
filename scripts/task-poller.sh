@@ -12,7 +12,7 @@ NEW_TASKS=$(grep -c "^- 📋" "$BOARD" 2>/dev/null || echo 0)
 STALE=$(grep "^- ⏳" "$BOARD" 2>/dev/null | while read line; do
   DATE=$(echo "$line" | grep -oE '\[2026-[0-9-]+\]' | tr -d '[]')
   if [ -n "$DATE" ]; then
-    TASK_TS=$(date -j -f "%Y-%m-%d" "$DATE" "+%s" 2>/dev/null || echo 0)
+    TASK_TS=$(date -j -f "%Y-%m-%d" "$DATE" "+%s" 2>/dev/null || date -d "$DATE" "+%s" 2>/dev/null || echo 0)
     NOW_TS=$(date "+%s")
     DIFF=$(( (NOW_TS - TASK_TS) / 86400 ))
     if [ "$DIFF" -gt 1 ]; then

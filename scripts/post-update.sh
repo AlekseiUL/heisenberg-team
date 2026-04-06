@@ -65,6 +65,6 @@ sleep 2
 
 # 6. Финальная проверка
 echo "🔍 Финальная проверка..."
-bash {{WORKSPACE_PATH}}scripts/post-update-check.sh 2>&1
+bash "${WORKSPACE_PATH:-$HOME/workspace}/scripts/post-update-check.sh" 2>&1
 
 echo "✅ Post-update завершён"

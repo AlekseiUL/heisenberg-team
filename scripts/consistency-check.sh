@@ -5,7 +5,7 @@
 
 set -uo pipefail
 
-WS="${WORKSPACE_PATH:-${HOME}/Desktop/heisenberg-team}"
+WS="${WORKSPACE_PATH:-${HOME}/workspace}"
 ISSUES=()
 
 # === Функция: проверяем конкретное значение в нескольких файлах ===
