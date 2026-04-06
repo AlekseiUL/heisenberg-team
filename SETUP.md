@@ -174,6 +174,9 @@ Edit `references/team-constitution.md` to change delegation rules and workflows.
 
 - [Your First Task](docs/first-task.md) — step-by-step walkthrough
 - [Architecture](docs/architecture.md) — how agents communicate
+- [API Reference](docs/api-reference.md) — tool reference for sessions_send, memory, and more
+- [Environment Variables](docs/environment-variables.md) — complete configuration reference
+- [Troubleshooting](docs/troubleshooting.md) — detailed problem-solving guide
 - [FAQ](docs/faq.md) — common questions
 - [Add an Agent](examples/add-new-agent.md) — extend the team
 

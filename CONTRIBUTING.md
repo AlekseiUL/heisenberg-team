@@ -54,6 +54,6 @@ Each skill needs at minimum a `SKILL.md` file with YAML frontmatter.
 - [ ] Skills have `SKILL.md` with proper frontmatter
 - [ ] Scripts are executable (`chmod +x`)
 
-## Questions?
+## Still Stuck?
 
-Open an issue or check [docs/faq.md](docs/faq.md).
+Open an issue or check [docs/troubleshooting.md](docs/troubleshooting.md) for a detailed guide.

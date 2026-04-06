@@ -214,6 +214,9 @@ bash scripts/deploy-team.sh
 - [Agent Onboarding](docs/agent-onboarding.md) - configure agents on first launch
 - [Architecture](docs/architecture.md) - how agents communicate
 - [Agent Roles](docs/agent-roles.md) - what each agent does
+- [API Reference](docs/api-reference.md) - sessions_send, memory ops, tool reference
+- [Environment Variables](docs/environment-variables.md) - all configuration options explained
+- [Troubleshooting](docs/troubleshooting.md) - diagnosing and fixing common problems
 - [Linux Setup](docs/linux-setup.md) - running on Ubuntu/Debian
 - [FAQ](docs/faq.md) - common questions and troubleshooting
 - [Skills Index](skills/README.md) - all 34 skills with dependencies
