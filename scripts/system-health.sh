@@ -14,9 +14,11 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 elif command -v free &>/dev/null; then
   available_mb=$(free -m | awk '/^Mem:/ {print $7}')
 else
-  available_mb=9999  # unknown platform, skip check
+  available_mb=9999  # RAM check unavailable on this platform, skip
 fi
-if [ "$available_mb" -lt 200 ]; then
+if [ "$available_mb" -eq 9999 ]; then
+  : # skip RAM check on unsupported platform
+elif [ "$available_mb" -lt 200 ]; then
     echo "PROBLEM|ram|🔴 RAM критично: доступно ${available_mb}MB (< 200MB)|pkill -f 'whisper-server'; docker stop pgadmin-local 2>/dev/null"
     PROBLEMS=$((PROBLEMS+1))
 elif [ "$available_mb" -lt 500 ]; then
