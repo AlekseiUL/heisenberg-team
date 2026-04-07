@@ -1,6 +1,13 @@
 #!/bin/bash
 # setup-wizard.sh — Interactive setup for Heisenberg Team
 # Guides user through all configuration steps
+
+# This script relies on Bash-specific features (associative arrays).
+# If started from another shell (e.g. zsh), re-exec in bash.
+if [ -z "${BASH_VERSION:-}" ]; then
+  exec bash "$0" "$@"
+fi
+
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
