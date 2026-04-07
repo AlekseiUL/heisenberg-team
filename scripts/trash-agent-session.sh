@@ -10,7 +10,7 @@ THRESHOLD=50000
 
 if [ -z "$AGENT" ]; then
   echo "Использование: bash trash-agent-session.sh <agent_id> [--force]"
-  echo "Агенты: producer teamlead marketing-funnel skyler hank kaizen"
+  echo "Агенты: main producer teamlead marketing-funnel skyler hank kaizen researcher"
   echo "Порог: ${THRESHOLD} токенов (--force игнорирует)"
   exit 1
 fi

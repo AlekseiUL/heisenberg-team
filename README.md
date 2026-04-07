@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![OpenClaw](https://img.shields.io/badge/Built%20with-OpenClaw-blue)](https://github.com/openclaw/openclaw)
 [![Agents](https://img.shields.io/badge/Agents-8-green)]()
-[![Skills](https://img.shields.io/badge/Skills-34-orange)]()
+[![Skills](https://img.shields.io/badge/Skills-33-orange)]()
 
 ---
 
@@ -18,7 +18,7 @@
 - [Architecture](#architecture)
 - [Agents](#agents)
 - [Quick Start](#quick-start)
-- [Skills (34)](#skills-34)
+- [Skills (33)](#skills-33)
 - [Project Structure](#project-structure)
 - [Examples](#examples)
 - [Documentation](#documentation)
@@ -52,8 +52,8 @@ This is not a framework. This is a **working system** you can clone, configure, 
 
 ## Why?
 
-- **One boss, seven specialists.** You talk to Heisenberg. He delegates to the right agent. You get results.
-- **34 skills.** PDF generation, research, marketing, security audits, financial tracking, code review — out of the box.
+- **One coordinator, seven specialists.** Product work usually starts with Saul (`producer`), then routes to the right agent. Heisenberg (`main`) is used for strategy and escalations.
+- **33 skills.** PDF generation, research, marketing, security audits, financial tracking, code review — out of the box.
 - **Board-First protocol.** Tasks survive crashes. File-based state, not memory. No work is lost.
 - **Self-healing.** Health checks, watchdogs, automatic session cleanup. The system monitors itself.
 - **Your data stays yours.** All personal data uses `{{PLACEHOLDER}}` format. Setup wizard fills them in 5 minutes.
@@ -79,7 +79,7 @@ graph TB
     User["👤 You (Telegram)"]
     
     subgraph team["🧪 Heisenberg Team"]
-        HB["🧪 Heisenberg<br/>Boss & Coordinator<br/><i>Opus</i>"]
+        HB["🧪 Heisenberg<br/>Boss & Escalation<br/><i>Opus</i>"]
         
         subgraph specialists["Specialists"]
             Saul["💼 Saul Goodman<br/>Producer<br/><i>Sonnet</i>"]
@@ -93,7 +93,7 @@ graph TB
         
         Board["📋 Team Board<br/><i>File-based state</i>"]
         Memory["🧠 Memory<br/><i>SQLite + Vectors</i>"]
-        Skills["⚡ 34 Skills<br/><i>PDF, XLSX, Research...</i>"]
+        Skills["⚡ 33 Skills<br/><i>PDF, XLSX, Research...</i>"]
     end
     
     User -->|"message"| HB
@@ -127,7 +127,7 @@ graph TB
 
 | Agent | Character | Role | Key Skills |
 |-------|-----------|------|------------|
-| **Heisenberg** | Walter White | Boss, user-facing | Delegation, delivery |
+| **Heisenberg** | Walter White | Boss, strategy & escalation | Delegation, escalation |
 | **Saul** | Saul Goodman | Coordinator | Pipeline management, briefings |
 | **Walter** | Walter White (lab) | Team Lead | Code, PDF, GitHub, skills |
 | **Jesse** | Jesse Pinkman | Marketing | Funnels, campaigns, analytics |
@@ -165,9 +165,9 @@ See [SETUP.md](SETUP.md) for detailed installation guide or [docs/first-task.md]
 
 > **Platform note:** Utility scripts in `scripts/` are optimized for macOS but support Linux/WSL. See [Linux Setup](docs/linux-setup.md) for platform-specific instructions.
 
-## Skills (34)
+## Skills (33)
 
-The team shares a library of 34 skills covering:
+The team shares a library of 33 skills covering:
 
 - **Content:** copywriter, youtube-seo, presentation, pptx-generator
 - **Research:** researcher, deep-research-pro, channel-analyzer, reddit
@@ -184,7 +184,7 @@ Full list with dependencies in [skills/README.md](skills/README.md).
 ```
 heisenberg-team/
 ├── agents/          # 8 agents, each with config files
-├── skills/          # 34 shared skills
+├── skills/          # 33 shared skills
 ├── scripts/         # Utility and automation scripts
 ├── references/      # Team constitution, standards
 ├── examples/        # Cookbooks and guides
@@ -219,7 +219,7 @@ bash scripts/deploy-team.sh
 - [Troubleshooting](docs/troubleshooting.md) - diagnosing and fixing common problems
 - [Linux Setup](docs/linux-setup.md) - running on Ubuntu/Debian
 - [FAQ](docs/faq.md) - common questions and troubleshooting
-- [Skills Index](skills/README.md) - all 34 skills with dependencies
+- [Skills Index](skills/README.md) - all 33 skills with dependencies
 
 ## Contributing
 

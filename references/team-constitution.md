@@ -187,7 +187,8 @@ message(action=send, channel=telegram, to={{OWNER_TELEGRAM_ID}}, message="Гот
 | Скиллы | `skills/НАЗВАНИЕ/SKILL.md` |
 | Скрипты | `scripts/` |
 
-**НИКОГДА** файлы в `~/.openclaw/agents/`. Это НЕ общий workspace.
+**НИКОГДА** не хранить проектные файлы в `~/.openclaw/agents/`. Это НЕ общий workspace.
+Допустимы только runtime-файлы OpenClaw (конфиги, сессии, локальные копии скиллов, которые ставит setup).
 
 ### 6.1 Формат briefing
 
@@ -226,6 +227,7 @@ message(action=send, channel=telegram, to={{OWNER_TELEGRAM_ID}}, message="Гот
 | Гус (kaizen) | strat-session, brainstorming | Цели, Obsidian |
 | Хэнк (hank) | healthcheck | Безопасность, аудит |
 | Скайлер (skyler) | — | Финансы, ROI |
+| Братья (researcher) | deep-research-pro, researcher, reddit, channel-analyzer | Ресёрч, мониторинг, конкурентная разведка |
 | Хайзенберг (main) | ВСЕ скиллы | Оркестрация, консультации |
 
 ### Правила:

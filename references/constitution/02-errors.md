@@ -31,6 +31,7 @@
 | Гус (kaizen) | strat-session, brainstorming | Цели, Obsidian |
 | Хэнк (hank) | healthcheck | Безопасность, аудит |
 | Скайлер (skyler) | — | Финансы, ROI |
+| Братья (researcher) | deep-research-pro, researcher, reddit, channel-analyzer | Ресёрч, мониторинг, конкурентная разведка |
 | Хайзенберг (main) | ВСЕ скиллы | Оркестрация, консультации |
 
 ### Правила:

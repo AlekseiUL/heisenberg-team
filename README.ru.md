@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![OpenClaw](https://img.shields.io/badge/Built%20with-OpenClaw-blue)](https://github.com/openclaw/openclaw)
 [![Agents](https://img.shields.io/badge/Agents-8-green)]()
-[![Skills](https://img.shields.io/badge/Skills-34-orange)]()
+[![Skills](https://img.shields.io/badge/Skills-33-orange)]()
 
 ---
 
@@ -19,7 +19,7 @@
 - [Архитектура](#архитектура)
 - [Агенты](#агенты)
 - [Быстрый старт](#быстрый-старт)
-- [Скиллы (34)](#скиллы-34)
+- [Скиллы (33)](#скиллы-33)
 - [Структура проекта](#структура-проекта)
 - [Примеры](#примеры)
 - [Документация](#документация)
@@ -36,8 +36,8 @@
 
 ## Зачем?
 
-- **Один босс, семь специалистов.** Вы говорите с Хайзенбергом. Он делегирует правильному агенту. Вы получаете результат.
-- **34 скилла.** Генерация PDF, исследования, маркетинг, аудиты безопасности, финансовый учёт, код-ревью — из коробки.
+- **Один координатор, семь специалистов.** Продуктовые задачи обычно начинаются с Сола (`producer`), дальше он маршрутизирует к нужному агенту. Хайзенберг (`main`) подключается для стратегии и эскалаций.
+- **33 скилла.** Генерация PDF, исследования, маркетинг, аудиты безопасности, финансовый учёт, код-ревью — из коробки.
 - **Board-First протокол.** Задачи переживают краши. Файловое состояние, не память. Никакая работа не теряется.
 - **Самоисцеление.** Health checks, watchdogs, автоматическая очистка сессий. Система мониторит себя сама.
 - **Ваши данные остаются вашими.** Все личные данные используют формат `{{PLACEHOLDER}}`. Мастер настройки заполняет их за 5 минут.
@@ -63,7 +63,7 @@ graph TB
     User["👤 You (Telegram)"]
     
     subgraph team["🧪 Heisenberg Team"]
-        HB["🧪 Heisenberg<br/>Boss & Coordinator<br/><i>Opus</i>"]
+        HB["🧪 Heisenberg<br/>Boss & Escalation<br/><i>Opus</i>"]
         
         subgraph specialists["Specialists"]
             Saul["💼 Saul Goodman<br/>Producer<br/><i>Sonnet</i>"]
@@ -77,7 +77,7 @@ graph TB
         
         Board["📋 Team Board<br/><i>File-based state</i>"]
         Memory["🧠 Memory<br/><i>SQLite + Vectors</i>"]
-        Skills["⚡ 34 Skills<br/><i>PDF, XLSX, Research...</i>"]
+        Skills["⚡ 33 Skills<br/><i>PDF, XLSX, Research...</i>"]
     end
     
     User -->|"message"| HB
@@ -111,7 +111,7 @@ graph TB
 
 | Агент | Персонаж | Роль | Ключевые скиллы |
 |-------|----------|------|-----------------|
-| **Heisenberg** | Уолтер Уайт | Босс | Делегирование, доставка |
+| **Heisenberg** | Уолтер Уайт | Босс, стратегия и эскалации | Делегирование, эскалации |
 | **Saul** | Сол Гудман | Координатор | Пайплайн, брифинги |
 | **Walter** | Уолтер Уайт (лаб.) | Тимлид | Код, PDF, GitHub |
 | **Jesse** | Джесси Пинкман | Маркетинг | Воронки, кампании |
@@ -157,9 +157,9 @@ openclaw gateway start
 
 Подробная инструкция: [SETUP.md](SETUP.md)
 
-## Скиллы (34)
+## Скиллы (33)
 
-Команда использует библиотеку из 34 скиллов:
+Команда использует библиотеку из 33 скиллов:
 
 - **Контент:** copywriter, youtube-seo, presentation, pptx-generator
 - **Ресёрч:** researcher, deep-research-pro, channel-analyzer, reddit
@@ -176,7 +176,7 @@ openclaw gateway start
 ```
 heisenberg-team/
 ├── agents/          # 8 агентов, каждый со своими конфигами
-├── skills/          # 34 общих скиллов
+├── skills/          # 33 общих скилла
 ├── scripts/         # Утилиты
 ├── references/      # Конституция команды, стандарты
 ├── examples/        # Кукбуки и гайды

@@ -268,9 +268,9 @@ Key scripts available in `scripts/`:
 **Before starting any new task — always reset the target agent's session:**
 
 ```bash
-bash scripts/trash-agent-session.sh walter
+bash scripts/trash-agent-session.sh teamlead
 sleep 5
-# now send sessions_send to walter
+# now send sessions_send to teamlead
 ```
 
 A heavy session is the #1 cause of timeouts. `trash-agent-session.sh` prevents this.

@@ -6,7 +6,7 @@ This directory contains **example OpenClaw configuration files** for each agent 
 
 1. Copy the example for your agent:
    ```bash
-   cp configs/heisenberg.openclaw.json.example ~/.openclaw/agents/heisenberg/openclaw.json
+   cp configs/heisenberg.openclaw.json.example ~/.openclaw/agents/main/openclaw.json
    ```
 
 2. Replace all `{{PLACEHOLDERS}}` with real values:
@@ -20,7 +20,7 @@ This directory contains **example OpenClaw configuration files** for each agent 
 
 3. Verify no placeholders remain:
    ```bash
-   grep -n '{{' ~/.openclaw/agents/heisenberg/openclaw.json
+   grep -n '{{' ~/.openclaw/agents/main/openclaw.json
    ```
    Should return nothing.
 
@@ -33,20 +33,20 @@ All numeric thresholds (timeouts, retries, context limits) are centralized in:
 
 | File | Agent | Model |
 |------|-------|-------|
-| `heisenberg.openclaw.json.example` | Heisenberg (Boss) | MAIN_MODEL (Opus) |
-| `saul.openclaw.json.example` | Saul Goodman (Producer) | COORDINATOR_MODEL (Opus) |
-| `walter.openclaw.json.example` | Walter White (Tech Lead) | TECH_MODEL (Sonnet) |
-| `jesse.openclaw.json.example` | Jesse Pinkman (Marketing) | WORKER_MODEL (Haiku / gemma4:26b) |
-| `skyler.openclaw.json.example` | Skyler White (Finance) | WORKER_MODEL (Haiku / gemma4:26b) |
-| `hank.openclaw.json.example` | Hank Schrader (Security) | WORKER_MODEL (Haiku / gemma4:26b) |
-| `gus.openclaw.json.example` | Gus Fring (Kaizen) | WORKER_MODEL (Haiku / gemma4:26b) |
-| `twins.openclaw.json.example` | The Cousins (Research) | WORKER_MODEL (Haiku / gemma4:26b) |
+| `heisenberg.openclaw.json.example` | Heisenberg (Boss) | `MAIN_MODEL` |
+| `saul.openclaw.json.example` | Saul Goodman (Producer) | `COORDINATOR_MODEL` |
+| `walter.openclaw.json.example` | Walter White (Tech Lead) | `TECH_MODEL` |
+| `jesse.openclaw.json.example` | Jesse Pinkman (Marketing) | `WORKER_MODEL` |
+| `skyler.openclaw.json.example` | Skyler White (Finance) | `WORKER_MODEL` |
+| `hank.openclaw.json.example` | Hank Schrader (Security) | `WORKER_MODEL` |
+| `gus.openclaw.json.example` | Gus Fring (Kaizen) | `WORKER_MODEL` |
+| `twins.openclaw.json.example` | The Cousins (Research) | `WORKER_MODEL` |
 | `thresholds.yaml` | All agents | Centralized thresholds |
 
 ## Design Notes
 
-- **Heisenberg uses Opus** — he's the user-facing boss, quality matters
-- **All others use Sonnet** — sub-agents don't need Opus; saves cost significantly
+- **Model values come from `.env`** — set `MAIN_MODEL` / `COORDINATOR_MODEL` / `TECH_MODEL` / `WORKER_MODEL` for your provider and budget
+- **Agent IDs in `~/.openclaw/agents/` use OpenClaw IDs** (`main`, `producer`, `teamlead`, ...) while repo folders use character names (`heisenberg`, `saul`, `walter`, ...)
 - **remoteAgents** — each agent knows about all *other* agents (not itself)
 - **Memory** — all agents use local SQLite with OpenAI embeddings for vector search
 - **Heartbeat** — enabled for all agents, 30 min interval
