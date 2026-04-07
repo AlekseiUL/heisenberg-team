@@ -17,7 +17,7 @@
 | OpenAI | gpt-4o | gpt-4o | Full support |
 | Google | gemini-2.5-pro | gemini-2.5-flash | Full support |
 | DeepSeek | deepseek-chat | deepseek-chat | Budget-friendly. Good reasoning with deepseek-reasoner |
-| Ollama | llama3 (or custom) | same | Local, free. Limited tool-use capability |
+| Ollama | llama3 (or custom) | gemma4:26b (recommended for workers) | Local, free. Gemma 4 has native function calling (τ2-bench 85.5%) |
 
 ### Claude Max Users
 If you have a Claude Max subscription ($100-200/month), you don't need a separate API key. The subscription includes API access through the Claude app. Enter 'max' when the wizard asks for your Anthropic API key.

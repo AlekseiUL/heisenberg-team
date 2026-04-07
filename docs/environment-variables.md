@@ -112,10 +112,19 @@ Defaults to `COORDINATOR_MODEL` if not set.
 *(Optional)* Model for worker agents: Jesse, Skyler, Hank, Gus, Twins.
 
 ```env
-# WORKER_MODEL=anthropic/claude-haiku-4-5
+# WORKER_MODEL=anthropic/claude-haiku-4-5  # Cloud option
+# WORKER_MODEL=ollama/gemma4:26b            # Local Ollama option (recommended for self-hosted setups)
 ```
 
 Using a smaller/cheaper model for workers significantly reduces costs. Defaults to `COORDINATOR_MODEL` if not set.
+
+For local inference via Ollama, **`ollama/gemma4:26b`** (Gemma 4 26B-A4B) is the recommended worker model:
+- ~17 GB RAM, ~56–92 tok/s on Apple Silicon M2 Max
+- 256K context window
+- Native function calling / agentic tool use (τ2-bench: 85.5%)
+- Apache 2.0 license
+
+Install with: `ollama pull gemma4:26b`
 
 ---
 

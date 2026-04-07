@@ -36,11 +36,11 @@ All numeric thresholds (timeouts, retries, context limits) are centralized in:
 | `heisenberg.openclaw.json.example` | Heisenberg (Boss) | MAIN_MODEL (Opus) |
 | `saul.openclaw.json.example` | Saul Goodman (Producer) | COORDINATOR_MODEL (Opus) |
 | `walter.openclaw.json.example` | Walter White (Tech Lead) | TECH_MODEL (Sonnet) |
-| `jesse.openclaw.json.example` | Jesse Pinkman (Marketing) | WORKER_MODEL (Haiku) |
-| `skyler.openclaw.json.example` | Skyler White (Finance) | WORKER_MODEL (Haiku) |
-| `hank.openclaw.json.example` | Hank Schrader (Security) | WORKER_MODEL (Haiku) |
-| `gus.openclaw.json.example` | Gus Fring (Kaizen) | WORKER_MODEL (Haiku) |
-| `twins.openclaw.json.example` | The Cousins (Research) | WORKER_MODEL (Haiku) |
+| `jesse.openclaw.json.example` | Jesse Pinkman (Marketing) | WORKER_MODEL (Haiku / gemma4:26b) |
+| `skyler.openclaw.json.example` | Skyler White (Finance) | WORKER_MODEL (Haiku / gemma4:26b) |
+| `hank.openclaw.json.example` | Hank Schrader (Security) | WORKER_MODEL (Haiku / gemma4:26b) |
+| `gus.openclaw.json.example` | Gus Fring (Kaizen) | WORKER_MODEL (Haiku / gemma4:26b) |
+| `twins.openclaw.json.example` | The Cousins (Research) | WORKER_MODEL (Haiku / gemma4:26b) |
 | `thresholds.yaml` | All agents | Centralized thresholds |
 
 ## Design Notes
