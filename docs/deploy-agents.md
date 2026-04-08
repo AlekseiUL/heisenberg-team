@@ -104,11 +104,15 @@ AGENT=heisenberg
 # Create config directory
 mkdir -p ~/.openclaw/agents/$AGENT
 
-# Copy example config
-cp ~/openclaw-agents/$AGENT/openclaw.json.example ~/.openclaw/agents/$AGENT/openclaw.json
+# Prepare a local generated config first
+mkdir -p configs/generated
+cp configs/$AGENT.openclaw.json.example configs/generated/$AGENT.openclaw.json
+
+# Copy the generated config into OpenClaw's runtime location
+cp configs/generated/$AGENT.openclaw.json ~/.openclaw/agents/$AGENT/openclaw.json
 ```
 
-Then **edit the config** and replace placeholders:
+Then **edit the generated config** and replace placeholders:
 
 | Placeholder | Replace with |
 |-------------|-------------|

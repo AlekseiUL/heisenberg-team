@@ -1,12 +1,24 @@
 # Agent Config Examples
 
-This directory contains **example OpenClaw configuration files** for each agent on the Heisenberg Team.
+This directory contains **committable example OpenClaw configuration files** for each agent on the Heisenberg Team.
+
+## Directory Layout
+
+- `configs/*.openclaw.json.example` - tracked example templates, safe to commit
+- `configs/generated/` - local generated configs, ignored by git, never commit secrets from here
 
 ## How to Use
 
-1. Copy the example for your agent:
+1. Copy the example for your agent, or generate a local config into `configs/generated/` first:
    ```bash
-   cp configs/heisenberg.openclaw.json.example ~/.openclaw/agents/heisenberg/openclaw.json
+   mkdir -p configs/generated
+   cp configs/heisenberg.openclaw.json.example configs/generated/heisenberg.openclaw.json
+   ```
+
+2. Then copy the real config to your OpenClaw agent directory:
+   ```bash
+   mkdir -p ~/.openclaw/agents/heisenberg
+   cp configs/generated/heisenberg.openclaw.json ~/.openclaw/agents/heisenberg/openclaw.json
    ```
 
 2. Replace all `{{PLACEHOLDERS}}` with real values:
@@ -50,6 +62,9 @@ This directory contains **example OpenClaw configuration files** for each agent 
 ⚠️ **Never commit real configs to git.**
 
 The `.example` files in this directory use `{{PLACEHOLDERS}}` and are safe to commit.
-Real configs with tokens/keys go in `~/.openclaw/agents/<agent>/openclaw.json` — outside this repo.
+Real configs with tokens or keys should live either in:
 
-The `.gitignore` in the repo root should already exclude `*.json` in `configs/` except `*.example` files.
+- `configs/generated/` while you are preparing them locally
+- `~/.openclaw/agents/<agent>/openclaw.json` for actual runtime use
+
+`configs/generated/` is ignored by the repo root `.gitignore` on purpose.
