@@ -62,14 +62,28 @@ cp references/team-constitution.md ~/your-current-workspace/references/
 cp references/team-board.md ~/your-current-workspace/references/
 ```
 
-Update your existing `~/.openclaw/openclaw.json` — add the `agents.remoteAgents` section from `configs/heisenberg.openclaw.json.example`.
+Update your existing `~/.openclaw/openclaw.json` - add the `agents.remoteAgents` section from `configs/heisenberg.openclaw.json.example`.
+
+If you want to keep your current install and add only a few team members first, run:
+
+```bash
+bash scripts/setup.sh --attach-existing --agents heisenberg,saul,walter
+bash scripts/smoke-test.sh --agents heisenberg,saul,walter
+```
 
 ### Option B: Fresh start with Heisenberg as main agent
 ```bash
-# Use the provided config
-cp configs/heisenberg.openclaw.json.example ~/.openclaw/openclaw.json
+# Prepare a local config from the example
+mkdir -p configs/generated
+cp configs/heisenberg.openclaw.json.example configs/generated/heisenberg.openclaw.json
+
 # Edit with your API keys
-nano ~/.openclaw/openclaw.json
+nano configs/generated/heisenberg.openclaw.json
+
+# Install to OpenClaw runtime location
+mkdir -p ~/.openclaw/agents/main
+cp configs/generated/heisenberg.openclaw.json ~/.openclaw/agents/main/openclaw.json
+
 # Set workspace
 # In openclaw.json, set "workspace" to the heisenberg-team/agents/heisenberg/ directory
 ```
@@ -139,7 +153,7 @@ Your existing memory, lessons, and preferences can be kept:
 ## FAQ
 
 ### Can I keep my agent's personality?
-Yes! Edit `SOUL.md` and `IDENTITY.md` in your workspace. The Breaking Bad names are just defaults — rename agents to whatever you want.
+Yes. Edit `SOUL.md` and `IDENTITY.md` in your workspace. The Breaking Bad characters are the default product flavor, but visible names can be customized in generated configs if you want.
 
 ### Do I need all 8 agents?
 No. Start with Heisenberg + 1-2 specialists. Add more when you need them.

@@ -156,9 +156,21 @@ openclaw init
 
 # 5. Run
 openclaw gateway start
+bash scripts/smoke-test.sh
 ```
 
 The setup wizard will ask for your name, Telegram ID, and other settings, then configure everything automatically.
+
+Need a narrower rollout first?
+
+```bash
+# Selected agents only
+bash scripts/setup.sh --agents heisenberg,saul,walter
+bash scripts/smoke-test.sh --agents heisenberg,saul,walter
+
+# Attach to an existing OpenClaw install
+bash scripts/setup.sh --attach-existing --agents heisenberg,walter
+```
 
 See [SETUP.md](SETUP.md) for detailed installation guide or [docs/first-task.md](docs/first-task.md) for your first walkthrough.
 

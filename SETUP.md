@@ -27,13 +27,43 @@ Vector memory search requires OpenAI embeddings ($0.02/1M tokens — practically
 
 ## Quick Start (Recommended)
 
-The interactive wizard handles everything — placeholder replacement, agent installation, and verification:
+The interactive wizard handles everything - placeholder replacement, agent installation, and verification:
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/heisenberg-team.git
 cd heisenberg-team
 bash scripts/setup-wizard.sh
 ```
+
+## Common Deployment Modes
+
+### 1) Full team
+
+```bash
+bash scripts/setup.sh
+bash scripts/smoke-test.sh
+```
+
+### 2) Selected agents only
+
+```bash
+bash scripts/setup.sh --agents heisenberg,saul,walter
+bash scripts/smoke-test.sh --agents heisenberg,saul,walter
+```
+
+### 3) Attach to an existing OpenClaw install
+
+Use this when you already have `~/.openclaw` and want to add Heisenberg Team agents without pretending it is a fresh machine:
+
+```bash
+bash scripts/setup.sh --attach-existing --agents heisenberg,walter
+```
+
+Then prepare configs from `configs/*.example` or `configs/generated/`, and merge `remoteAgents` from the example configs into your existing OpenClaw setup.
+
+### 4) Custom names
+
+Character branding can stay exactly as-is. If you want custom visible names, change the `name` field in your generated OpenClaw config and update the corresponding `IDENTITY.md` or `SOUL.md` text if needed.
 
 The wizard will:
 1. Check prerequisites
@@ -121,11 +151,31 @@ These placeholders appear in individual agent files and are optional:
 bash scripts/setup.sh
 ```
 
+Optional modes:
+
+```bash
+# Only install selected agents
+bash scripts/setup.sh --agents heisenberg,saul,walter
+
+# Attach to an existing ~/.openclaw install
+bash scripts/setup.sh --attach-existing --agents heisenberg,walter
+
+# Skip shared skills copy
+bash scripts/setup.sh --no-skills --agents heisenberg
+```
+
 ### Step 5: Start and Verify
 
 ```bash
 openclaw gateway start
 openclaw status
+bash scripts/smoke-test.sh
+```
+
+For partial installs:
+
+```bash
+bash scripts/smoke-test.sh --agents heisenberg,saul,walter
 ```
 
 You should see 8 agents:

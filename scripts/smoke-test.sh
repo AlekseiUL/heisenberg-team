@@ -9,16 +9,58 @@ NC='\033[0m'
 
 ERRORS=0
 WARNINGS=0
+SELECTED_AGENTS=""
+ALL_AGENTS=(heisenberg saul walter jesse skyler hank gus twins)
+TARGET_AGENTS=()
+
+usage() {
+  cat <<'EOF'
+Usage: bash scripts/smoke-test.sh [options]
+
+Options:
+  --agents a,b,c   Check only selected character directories
+  --help           Show this help
+EOF
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --agents)
+      SELECTED_AGENTS="${2:-}"
+      shift 2
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "❌ Unknown option: $1"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ -n "$SELECTED_AGENTS" ]; then
+  IFS=',' read -r -a TARGET_AGENTS <<< "$SELECTED_AGENTS"
+  for i in "${!TARGET_AGENTS[@]}"; do
+    TARGET_AGENTS[$i]="$(printf '%s' "${TARGET_AGENTS[$i]}" | xargs)"
+  done
+else
+  TARGET_AGENTS=("${ALL_AGENTS[@]}")
+fi
 
 echo ""
 echo "🧪 Heisenberg Team — Smoke Test"
 echo "================================="
 echo ""
+echo "Agents under test: ${TARGET_AGENTS[*]}"
+echo ""
 
 # 1. Check critical files
 echo "Checking critical files..."
 for f in agents/heisenberg/AGENTS.md agents/heisenberg/SOUL.md agents/heisenberg/IDENTITY.md \
-         references/team-constitution.md references/team-board.md \
+         references/team-constitution.md references/team-board.md.example \
          README.md LICENSE SETUP.md; do
   if [ -f "$f" ]; then
     echo -e "  ${GREEN}✓${NC} $f"
@@ -30,9 +72,9 @@ done
 
 echo ""
 
-# 2. Check all 8 agents
+# 2. Check selected agents
 echo "Checking agents..."
-for agent in heisenberg saul walter jesse skyler hank gus twins; do
+for agent in "${TARGET_AGENTS[@]}"; do
   dir="agents/$agent"
   if [ -d "$dir" ] && [ -f "$dir/AGENTS.md" ] && [ -f "$dir/SOUL.md" ]; then
     echo -e "  ${GREEN}✓${NC} $agent"
@@ -46,10 +88,18 @@ echo ""
 
 # 3. Check for remaining placeholders
 echo "Checking for unfilled placeholders..."
-PLACEHOLDER_COUNT=$(grep -r '{{' agents/ references/ --include="*.md" 2>/dev/null | grep -v '.example' | wc -l | tr -d ' ')
+PLACEHOLDER_COUNT=0
+for agent in "${TARGET_AGENTS[@]}"; do
+  if [ -d "agents/$agent" ]; then
+    count=$(grep -r '{{' "agents/$agent" --include="*.md" 2>/dev/null | wc -l | tr -d ' ')
+    PLACEHOLDER_COUNT=$((PLACEHOLDER_COUNT + count))
+  fi
+done
+REFERENCE_PLACEHOLDERS=$(grep -r '{{' references/ --include="*.md" 2>/dev/null | grep -v '.example' | wc -l | tr -d ' ')
+PLACEHOLDER_COUNT=$((PLACEHOLDER_COUNT + REFERENCE_PLACEHOLDERS))
 if [ "$PLACEHOLDER_COUNT" -gt 0 ]; then
   echo -e "  ${YELLOW}⚠${NC} $PLACEHOLDER_COUNT unfilled placeholders found"
-  echo "    Run: grep -rn '{{' agents/ --include='*.md' | head -10"
+  echo "    Run: grep -rn '{{' agents/ references/ --include='*.md' | head -10"
   WARNINGS=$((WARNINGS + 1))
 else
   echo -e "  ${GREEN}✓${NC} All placeholders filled"
