@@ -32,6 +32,7 @@ The interactive wizard handles everything - placeholder replacement, agent insta
 ```bash
 git clone https://github.com/YOUR_USERNAME/heisenberg-team.git
 cd heisenberg-team
+bash scripts/bootstrap-install.sh   # optional, installs git/node/openclaw stable
 bash scripts/setup-wizard.sh
 ```
 
@@ -63,14 +64,20 @@ Then prepare configs from `configs/*.example` or `configs/generated/`, and merge
 
 ### 4) Custom names
 
-Character branding can stay exactly as-is. If you want custom visible names, change the `name` field in your generated OpenClaw config and update the corresponding `IDENTITY.md` or `SOUL.md` text if needed.
+Character branding can stay exactly as-is. The setup wizard now asks for per-agent display names and writes them into generated configs. If you also want the markdown persona files to match perfectly, update `IDENTITY.md` and `SOUL.md` after generation.
+
+### 5) Add your own agents
+
+Use [examples/add-new-agent.md](examples/add-new-agent.md) as the template for custom specialists. The current wizard supports the built-in team best; custom agents are added by creating a new agent directory and config template, then including them in your rollout.
 
 The wizard will:
 1. Check prerequisites
-2. Ask for your name, Telegram ID, and other settings
-3. Replace all `{{PLACEHOLDER}}` values across the project
-4. Install agents and skills to `~/.openclaw/agents/`
-5. Verify the installation
+2. Let you choose which built-in agents to install
+3. Ask for your name, team directory, and other settings
+4. Collect per-agent Telegram bot tokens and display names
+5. Generate local configs in `configs/generated/`
+6. Install agents and skills to `~/.openclaw/agents/`
+7. Verify the installation
 
 After the wizard, create the workspace and start:
 

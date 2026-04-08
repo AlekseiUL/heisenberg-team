@@ -116,7 +116,8 @@ Then **edit the generated config** and replace placeholders:
 
 | Placeholder | Replace with |
 |-------------|-------------|
-| `{{TELEGRAM_BOT_TOKEN}}` | Bot token from BotFather (e.g. `7123456789:AAHxxx...`) |
+| `{{DISPLAY_NAME_HEISENBERG}}` etc. | The visible display name for that agent |
+| `{{TELEGRAM_BOT_TOKEN_HEISENBERG}}` etc. | The Telegram bot token for that specific agent |
 | `{{OWNER_TELEGRAM_ID}}` | Your numeric Telegram ID (e.g. `123456789`) |
 | `{{ANTHROPIC_API_KEY}}` | Your Claude API key (`sk-ant-...`) |
 | `{{OPENAI_API_KEY}}` | Your OpenAI API key (`sk-...`) for embeddings |
@@ -126,14 +127,14 @@ Then **edit the generated config** and replace placeholders:
 ```json
 {
   "version": 1,
-  "name": "Heisenberg",
+  "name": "{{DISPLAY_NAME_HEISENBERG}}",
   "model": { "default": "anthropic/claude-opus-4-5" },
   "plugins": {
     "entries": {
       "telegram": {
         "enabled": true,
         "config": {
-          "botToken": "YOUR_BOT_TOKEN_HERE",
+          "botToken": "YOUR_HEISENBERG_BOT_TOKEN_HERE",
           "authorizedSenders": ["YOUR_TELEGRAM_ID_HERE"]
         }
       }

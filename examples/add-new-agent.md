@@ -61,16 +61,22 @@ Give your agent a distinct voice. This affects how it communicates:
 
 ```bash
 # Copy to OpenClaw agents directory
-cp -r agents/your-agent-name ~/.openclaw/agents/your-agent-name/agent/
+mkdir -p ~/.openclaw/agents/your-agent-name/agent
+cp -r agents/your-agent-name/* ~/.openclaw/agents/your-agent-name/agent/
 
-# Restart gateway
-openclaw gateway restart
+# Prepare a config template for the new agent
+mkdir -p configs/generated
+cp configs/heisenberg.openclaw.json.example configs/generated/your-agent-name.openclaw.json
+# Edit agent name, bot token, workspace path, and remoteAgents as needed
 ```
 
-## 6. Update Team Constitution
+If you keep a live gateway running, restart it from your shell only after the new config is ready.
+
+## 6. Update Team Constitution and Routing
 
 Add the new agent to `references/team-constitution.md` so other agents know about it.
+Also update any `remoteAgents` blocks in the generated configs that should be able to reach this new agent.
 
 ## 7. Test
 
-Send a message that should be routed to your new agent and verify it responds correctly.
+Run a focused smoke test for the agents affected by the new addition, then send a message that should be routed to your new agent and verify it responds correctly.

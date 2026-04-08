@@ -144,11 +144,14 @@ graph TB
 git clone https://github.com/YOUR_USERNAME/heisenberg-team.git
 cd heisenberg-team
 
-# 2. Configure environment
+# 2. Optional bootstrap installer
+bash scripts/bootstrap-install.sh
+
+# 3. Configure environment
 cp .env.example .env
 # Edit .env with your LLM API key
 
-# 3. Interactive setup (recommended)
+# 4. Interactive setup (recommended)
 bash scripts/setup-wizard.sh
 
 # 4. Initialize OpenClaw (first time only)
@@ -160,6 +163,13 @@ bash scripts/smoke-test.sh
 ```
 
 The setup wizard will ask for your name, Telegram ID, and other settings, then configure everything automatically.
+
+The setup wizard now supports:
+- selected agents only
+- per-agent Telegram bot tokens
+- custom display names
+- generated configs in `configs/generated/`
+- a dedicated team directory root
 
 Need a narrower rollout first?
 

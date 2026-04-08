@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "name": "Heisenberg",
+  "name": "{{DISPLAY_NAME_HEISENBERG}}",
   "model": {
     "default": "{{MAIN_MODEL}}",
     "thinking": "adaptive"
@@ -23,7 +23,7 @@
       "telegram": {
         "enabled": true,
         "config": {
-          "botToken": "{{TELEGRAM_BOT_TOKEN}}",
+          "botToken": "{{TELEGRAM_BOT_TOKEN_HEISENBERG}}",
           "authorizedSenders": ["{{OWNER_TELEGRAM_ID}}"]
         }
       }

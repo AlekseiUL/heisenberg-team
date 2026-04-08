@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "name": "Walter",
+  "name": "{{DISPLAY_NAME_WALTER}}",
   "model": {
     "default": "{{AGENT_MODEL}}",
     "thinking": "adaptive"
@@ -23,7 +23,7 @@
       "telegram": {
         "enabled": true,
         "config": {
-          "botToken": "{{TELEGRAM_BOT_TOKEN}}",
+          "botToken": "{{TELEGRAM_BOT_TOKEN_WALTER}}",
           "authorizedSenders": ["{{OWNER_TELEGRAM_ID}}"]
         }
       }

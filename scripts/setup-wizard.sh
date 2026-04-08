@@ -85,7 +85,7 @@ ask() {
       read -p "  $prompt (skip with Enter): " value
     fi
   fi
-  eval "$var_name=\"$value\""
+  printf -v "$var_name" '%s' "$value"
 }
 
 echo -e "${YELLOW}── Required ──${NC}"
@@ -93,11 +93,18 @@ ask OWNER_NAME "Your first name" "" true
 ask OWNER_USERNAME "Your GitHub/online username" "" true
 
 echo ""
+echo -e "${YELLOW}── Team layout ──${NC}"
+echo "  Default agents: heisenberg, saul, walter, jesse, skyler, hank, gus, twins"
+ask SELECTED_AGENTS "Agents to install (comma-separated)" "heisenberg,saul,walter,jesse,skyler,hank,gus,twins" true
+ask TEAM_DIRECTORY "Team root directory" "~/openclaw-agents" true
+ask TEAM_DISPLAY_NAME "Team / system name" "Heisenberg Team" true
+
+echo ""
 echo -e "${YELLOW}── LLM Provider ──${NC}"
 echo ""
 echo "  Which LLM provider do you use?"
 echo ""
-echo "  1) Anthropic (Claude) — recommended"
+echo "  1) Anthropic (Claude) - recommended"
 echo "  2) OpenAI (GPT-4, GPT-4o)"
 echo "  3) Google (Gemini)"
 echo "  4) Ollama (local models)"
@@ -115,7 +122,7 @@ case "$LLM_CHOICE" in
     ask ANTHROPIC_API_KEY "Anthropic API key (or 'max' for Claude Max subscription)" "" true
     if [ "$ANTHROPIC_API_KEY" = "max" ]; then
       ANTHROPIC_API_KEY=""
-      echo -e "  ${CYAN}Claude Max detected — no API key needed, uses built-in auth${NC}"
+      echo -e "  ${CYAN}Claude Max detected - no API key needed, uses built-in auth${NC}"
     fi
     ;;
   2)
@@ -169,7 +176,7 @@ else
   if [ "$EMBED_KEY" = "skip" ] || [ -z "$EMBED_KEY" ]; then
     EMBEDDING_PROVIDER="none"
     EMBEDDING_MODEL=""
-    echo -e "  ${YELLOW}⚠${NC} Embeddings skipped — memory search will be keyword-only"
+    echo -e "  ${YELLOW}⚠${NC} Embeddings skipped - memory search will be keyword-only"
   else
     OPENAI_API_KEY="$EMBED_KEY"
     EMBEDDING_PROVIDER="openai"
@@ -186,16 +193,55 @@ ask OWNER_TELEGRAM_ID "Your Telegram user ID (digits)"
 ask TELEGRAM_CHANNEL "Your Telegram channel name (without @)"
 ask BOT_USERNAME "Main bot username (e.g. @MyBot_bot)"
 
+declare -A AGENT_MAP=(
+  ["heisenberg"]="main"
+  ["saul"]="producer"
+  ["walter"]="teamlead"
+  ["jesse"]="marketing-funnel"
+  ["skyler"]="skyler"
+  ["hank"]="hank"
+  ["gus"]="kaizen"
+  ["twins"]="researcher"
+)
+
+declare -A DEFAULT_DISPLAY_NAMES=(
+  ["heisenberg"]="Heisenberg"
+  ["saul"]="Saul"
+  ["walter"]="Walter"
+  ["jesse"]="Jesse"
+  ["skyler"]="Skyler"
+  ["hank"]="Hank"
+  ["gus"]="Gus"
+  ["twins"]="Twins"
+)
+
+IFS=',' read -r -a SELECTED_AGENT_LIST <<< "$SELECTED_AGENTS"
+echo ""
+echo -e "${YELLOW}── Per-agent setup ──${NC}"
+for i in "${!SELECTED_AGENT_LIST[@]}"; do
+  agent="$(printf '%s' "${SELECTED_AGENT_LIST[$i]}" | xargs)"
+  [ -z "$agent" ] && continue
+  if [ -z "${AGENT_MAP[$agent]:-}" ]; then
+    echo -e "  ${YELLOW}⚠${NC} Unknown built-in agent '$agent' - skipped in guided token setup"
+    continue
+  fi
+  upper=$(printf '%s' "$agent" | tr '[:lower:]' '[:upper:]')
+  default_name="${DEFAULT_DISPLAY_NAMES[$agent]}"
+  ask "DISPLAY_NAME_${upper}" "Display name for $agent" "$default_name" true
+  ask "TELEGRAM_BOT_TOKEN_${upper}" "Telegram bot token for $agent" ""
+  session_name="${AGENT_MAP[$agent]}"
+  printf -v "CUSTOM_AGENT_NAME_${upper}" '%s' "$session_name"
+done
+
 echo ""
 echo -e "${YELLOW}── Optional ──${NC}"
 ask OWNER_SURNAME "Your last name"
 ask COUNTRY "Your country"
 ask CITY "Your city"
 ask GITHUB_ORG "GitHub organization/username" "$OWNER_USERNAME"
-ask WORKSPACE_PATH "Workspace path" "~/workspace/"
+ask WORKSPACE_PATH "Workspace path" "$TEAM_DIRECTORY/"
 
 echo ""
-
 # ─── Step 3: Replace placeholders ───
 echo -e "${BOLD}Step 3/5: Applying configuration...${NC}"
 echo ""
@@ -203,6 +249,7 @@ echo ""
 # Build replacement pairs
 declare -A REPLACEMENTS=(
   ["{{OWNER_NAME}}"]="${OWNER_NAME}"
+  ["{{TEAM_NAME}}"]="${TEAM_DISPLAY_NAME}"
   ["{{OWNER_USERNAME}}"]="${OWNER_USERNAME}"
   ["{{OWNER_TELEGRAM_ID}}"]="${OWNER_TELEGRAM_ID:-YOUR_TELEGRAM_ID}"
   ["{{TELEGRAM_CHANNEL}}"]="${TELEGRAM_CHANNEL:-YOUR_CHANNEL}"
@@ -211,8 +258,8 @@ declare -A REPLACEMENTS=(
   ["{{COUNTRY}}"]="${COUNTRY:-Country}"
   ["{{CITY}}"]="${CITY:-City}"
   ["{{GITHUB_ORG}}"]="${GITHUB_ORG:-$OWNER_USERNAME}"
-  ["{{WORKSPACE_PATH}}"]="${WORKSPACE_PATH:-~/workspace/}"
-  ["{{PROJECTS_PATH}}"]="${WORKSPACE_PATH:-~/workspace/}projects/"
+  ["{{WORKSPACE_PATH}}"]="${WORKSPACE_PATH:-$TEAM_DIRECTORY/}"
+  ["{{PROJECTS_PATH}}"]="${WORKSPACE_PATH:-$TEAM_DIRECTORY/}projects/"
   ["{{MAIN_MODEL}}"]="${MAIN_MODEL:-anthropic/claude-opus-4-5}"
   ["{{AGENT_MODEL}}"]="${AGENT_MODEL:-anthropic/claude-sonnet-4-5}"
   ["{{EMBEDDING_PROVIDER}}"]="${EMBEDDING_PROVIDER:-openai}"
@@ -222,6 +269,17 @@ declare -A REPLACEMENTS=(
   ["{{GOOGLE_API_KEY}}"]="${GOOGLE_API_KEY:-your-google-key}"
   ["{{DEEPSEEK_API_KEY}}"]="${DEEPSEEK_API_KEY:-your-deepseek-key}"
 )
+
+
+for agent in heisenberg saul walter jesse skyler hank gus twins; do
+  upper=$(printf '%s' "$agent" | tr '[:lower:]' '[:upper:]')
+  display_var="DISPLAY_NAME_${upper}"
+  token_var="TELEGRAM_BOT_TOKEN_${upper}"
+  display_value="${!display_var:-${DEFAULT_DISPLAY_NAMES[$agent]}}"
+  token_value="${!token_var:-{{TELEGRAM_BOT_TOKEN}}}"
+  REPLACEMENTS["{{DISPLAY_NAME_${upper}}}"]="$display_value"
+  REPLACEMENTS["{{TELEGRAM_BOT_TOKEN_${upper}}}"]="$token_value"
+done
 
 # Count files to process
 FILE_COUNT=$(find "$REPO_DIR" -type f \( \
@@ -267,27 +325,24 @@ echo -e "${BOLD}Step 4/5: Installing agents and skills...${NC}"
 echo ""
 
 OPENCLAW_DIR="$HOME/.openclaw/agents"
-
-declare -A AGENT_MAP=(
-  ["heisenberg"]="main"
-  ["saul"]="producer"
-  ["walter"]="teamlead"
-  ["jesse"]="marketing-funnel"
-  ["skyler"]="skyler"
-  ["hank"]="hank"
-  ["gus"]="kaizen"
-  ["twins"]="researcher"
-)
+TEAM_ROOT_EXPANDED="${TEAM_DIRECTORY/#\~/$HOME}"
+mkdir -p "$REPO_DIR/configs/generated" "$TEAM_ROOT_EXPANDED" "$TEAM_ROOT_EXPANDED/projects"
 
 INSTALLED=0
-for char_name in "${!AGENT_MAP[@]}"; do
+for char_name in "${SELECTED_AGENT_LIST[@]}"; do
+  char_name="$(printf "%s" "$char_name" | xargs)"
+  [ -z "$char_name" ] && continue
   agent_name="${AGENT_MAP[$char_name]}"
   src="$REPO_DIR/agents/$char_name"
   dest="$OPENCLAW_DIR/$agent_name/agent"
 
   if [ -d "$src" ]; then
-    mkdir -p "$dest"
+    mkdir -p "$dest" "$TEAM_ROOT_EXPANDED/$char_name"
     cp "$src"/*.md "$dest/"
+    cp "$src"/*.md "$TEAM_ROOT_EXPANDED/$char_name/" 2>/dev/null || true
+    if [ -f "$REPO_DIR/configs/$char_name.openclaw.json.example" ]; then
+      cp "$REPO_DIR/configs/$char_name.openclaw.json.example" "$REPO_DIR/configs/generated/$char_name.openclaw.json"
+    fi
     echo -e "  ${GREEN}✓${NC} $char_name → $agent_name"
     INSTALLED=$((INSTALLED + 1))
   else
@@ -347,6 +402,7 @@ fi
 # Check agents installed
 AGENT_COUNT=$(ls "$OPENCLAW_DIR" 2>/dev/null | wc -l | tr -d ' ')
 echo -e "  ${GREEN}✓${NC} $AGENT_COUNT agents installed in ~/.openclaw/agents/"
+echo -e "  ${GREEN}✓${NC} Team directory prepared at $TEAM_ROOT_EXPANDED"
 
 # Check skills
 SKILL_COUNT=$(ls "$SKILLS_DEST" 2>/dev/null | wc -l | tr -d ' ')
@@ -358,9 +414,10 @@ echo -e "${GREEN}${BOLD}Setup complete!${NC}"
 echo ""
 echo -e "Next steps:"
 echo -e "  1. Initialize OpenClaw (if first time):  ${BOLD}openclaw init${NC}"
-echo -e "  2. Start the system:                     ${BOLD}openclaw gateway start${NC}"
-echo -e "  3. Check status:                         ${BOLD}openclaw status${NC}"
-echo -e "  4. Send a message to your bot to test!"
+echo -e "  2. Review generated configs:            ${BOLD}configs/generated/*.openclaw.json${NC}"
+echo -e "  3. Start the system:                     ${BOLD}openclaw gateway start${NC}"
+echo -e "  4. Check status:                         ${BOLD}openclaw status${NC}"
+echo -e "  5. Send a message to your bot to test!"
 echo ""
 echo -e "Guides:"
 echo -e "  First task:    ${BLUE}docs/first-task.md${NC}"
