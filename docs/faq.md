@@ -39,9 +39,10 @@ grep -rn '{{[A-Z_]*}}' agents/ --include='*.md'
 
 ### An agent doesn't respond
 1. Check gateway: `openclaw status`
-2. Check agent config: `ls ~/.openclaw/agents/<name>/agent/`
-3. Restart: `openclaw gateway restart`
+2. Check agent files: `ls ~/.openclaw/agents/<name>/agent/`
+3. Check that the agent config exists in `~/.openclaw/agents/<name>/openclaw.json`
 4. Check logs for errors
+5. If needed, restart the shared gateway from your shell: `openclaw gateway restart`
 
 ### Skills don't load
 Skills must be in the agent's skills directory:
@@ -76,7 +77,7 @@ Yes. Remove the agent directory and update `references/team-constitution.md` to 
 Place skills in a shared directory and configure each agent to reference it, or copy skills to each agent's skills directory. See [skills/README.md](../skills/README.md) for the full skills index.
 
 ### What is the Board-First Protocol?
-It's how agents coordinate. Instead of relying only on messages (which can timeout), the coordinator writes tasks to a file (`references/team-board.md`). Agents read this file to know their assignments. This survives crashes and session losses.
+It's how agents coordinate. Instead of relying only on messages (which can timeout), the coordinator writes tasks to a file (`references/team-board.md` in a live workspace, usually created from `references/team-board.md.example`). Agents read this file to know their assignments. This survives crashes and session losses.
 
 ### Where do task results go?
 Results are saved in `projects/<task-name>/` — briefing, intermediate files, and final output are all kept. Nothing is deleted.

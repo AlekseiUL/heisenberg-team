@@ -59,7 +59,7 @@ cp agents/heisenberg/TOOLS.md ~/your-current-workspace/
 cp agents/heisenberg/MEMORY.md ~/your-current-workspace/
 mkdir -p ~/your-current-workspace/references/
 cp references/team-constitution.md ~/your-current-workspace/references/
-cp references/team-board.md ~/your-current-workspace/references/
+cp references/team-board.md.example ~/your-current-workspace/references/team-board.md
 ```
 
 Update your existing `~/.openclaw/openclaw.json` - add the `agents.remoteAgents` section from `configs/heisenberg.openclaw.json.example`.
@@ -109,13 +109,21 @@ Others can be added later as needed.
 For each additional agent:
 
 ```bash
-# Copy agent config
-cp configs/saul.openclaw.json.example ~/.openclaw/agents/saul.json
-# Edit: add your bot token and API keys
-nano ~/.openclaw/agents/saul.json
+# Prepare a local generated config
+mkdir -p configs/generated
+cp configs/saul.openclaw.json.example configs/generated/saul.openclaw.json
 
-# Start the agent
-openclaw gateway start --config ~/.openclaw/agents/saul.json --port 3121
+# Edit: add your bot token and API keys
+nano configs/generated/saul.openclaw.json
+
+# Install into OpenClaw runtime location
+mkdir -p ~/.openclaw/agents/producer
+cp configs/generated/saul.openclaw.json ~/.openclaw/agents/producer/openclaw.json
+```
+
+Then start the shared gateway once:
+```bash
+openclaw gateway start
 ```
 
 Or use the deploy script:

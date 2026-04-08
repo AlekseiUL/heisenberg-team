@@ -234,7 +234,7 @@ sessions_send(
 
 ### Board-First Protocol
 
-Tasks flow through `references/team-board.md`:
+Tasks flow through `references/team-board.md` in each live workspace, typically created from `references/team-board.md.example` during setup:
 
 1. Heisenberg writes task to board
 2. Sends brief via `sessions_send`
@@ -302,7 +302,7 @@ openclaw gateway logs --follow
 # Kill the agent's session (gateway stays running)
 openclaw kill agent:main:main
 
-# Or restart the whole gateway if needed
+# Or restart the shared gateway from your shell if needed
 openclaw gateway restart
 ```
 

@@ -214,7 +214,7 @@ Edit `references/team-constitution.md` to change delegation rules and workflows.
 | Problem | Solution |
 |---------|----------|
 | Setup wizard fails | Check Node.js v18+ and OpenClaw installed |
-| Agent not responding | `openclaw status`, then `openclaw gateway restart` |
+| Agent not responding | Check `openclaw status`, verify `~/.openclaw/agents/<name>/openclaw.json`, then inspect logs. Restart the shared gateway from your shell only if needed. |
 | Skills not loading | Check `ls ~/.openclaw/agents/producer/agent/skills/` |
 | Telegram not working | Verify `OWNER_TELEGRAM_ID` is set (digits only) |
 | Remaining `{{PLACEHOLDER}}` | Run `grep -rn '{{' . --include='*.md'` to find them |
