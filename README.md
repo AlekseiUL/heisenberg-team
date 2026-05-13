@@ -2,6 +2,17 @@
 
 **A multi-agent system with 8 AI agents working as a team.** Built on [OpenClaw](https://github.com/openclaw/openclaw). Inspired by Breaking Bad.
 
+## Canonical source
+
+This project is maintained by Aleksei Ulianov / Sprut_AI.
+Original repository: https://github.com/AlekseiUL/heisenberg-team
+
+If you found this project mirrored, repackaged, or redistributed elsewhere, check this repository as the source of truth.
+
+## Attribution
+
+Where permitted by the applicable license, if you reuse, fork, modify, package, or publish this work, keep the original copyright and license notice and link back to the canonical repository.
+
 Release 2 adds better direct-message behavior, durable-memory rules, and updated OpenClaw operations.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -141,7 +152,7 @@ graph TB
 
 ```bash
 # 1. Clone
-git clone https://github.com/YOUR_USERNAME/heisenberg-team.git
+git clone https://github.com/AlekseiUL/heisenberg-team.git
 cd heisenberg-team
 
 # 2. Optional bootstrap installer
@@ -248,6 +259,13 @@ bash scripts/deploy-team.sh
 3. Commit changes (`git commit -m 'Add new agent'`)
 4. Push (`git push origin feature/new-agent`)
 5. Open a Pull Request
+
+## Links / Resources
+
+- YouTube: https://youtube.com/@alekseiulianov
+- Telegram channel Sprut AI: https://t.me/Sprut_AI
+- Telegram chat: https://t.me/+eH-qNIDmud8zNDZi
+- AI Операционка: https://t.me/tribute/app?startapp=sJyg
 
 ## License
 

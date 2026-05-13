@@ -4,6 +4,17 @@
 
 **Мультиагентная система из 8 AI-агентов, работающих как команда.** Построена на [OpenClaw](https://github.com/openclaw/openclaw). Вдохновлена Breaking Bad.
 
+## Canonical source / источник
+
+This project is maintained by Aleksei Ulianov / Sprut_AI.
+Original repository: https://github.com/AlekseiUL/heisenberg-team
+
+If you found this project mirrored, repackaged, or redistributed elsewhere, check this repository as the source of truth.
+
+## Attribution / атрибуция
+
+Where permitted by the applicable license, if you reuse, fork, modify, package, or publish this work, keep the original copyright and license notice and link back to the canonical repository.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![OpenClaw](https://img.shields.io/badge/Built%20with-OpenClaw-blue)](https://github.com/openclaw/openclaw)
 [![Agents](https://img.shields.io/badge/Agents-8-green)]()
@@ -141,7 +152,7 @@ graph TB
 
 ```bash
 # 1. Клонировать
-git clone https://github.com/YOUR_USERNAME/heisenberg-team.git
+git clone https://github.com/AlekseiUL/heisenberg-team.git
 cd heisenberg-team
 
 # 2. Настроить
@@ -199,6 +210,13 @@ heisenberg-team/
 - [Роли агентов](docs/agent-roles.md)
 - [Установка на Linux](docs/linux-setup.md)
 - [FAQ](docs/faq.md)
+
+## Полезные ссылки
+
+- YouTube: https://youtube.com/@alekseiulianov
+- Telegram-канал Sprut AI: https://t.me/Sprut_AI
+- Чат Telegram-канала Sprut AI: https://t.me/+eH-qNIDmud8zNDZi
+- AI Операционка: https://t.me/tribute/app?startapp=sJyg
 
 ## Лицензия
 

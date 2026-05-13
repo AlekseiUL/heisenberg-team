@@ -24,7 +24,7 @@ BEFORE:                          AFTER:
 
 ```bash
 cd ~/Desktop  # or wherever you keep projects
-git clone https://github.com/{{GITHUB_ORG}}/heisenberg-team.git
+git clone https://github.com/AlekseiUL/heisenberg-team.git
 cd heisenberg-team
 ```
 
