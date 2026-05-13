@@ -45,6 +45,17 @@ Where permitted by the applicable license, if you reuse, fork, modify, package, 
 
 Это не фреймворк. Это **рабочая система**, которую можно клонировать, настроить и запустить.
 
+## Для кого это
+
+Этот репозиторий нужен, если тебе нужна self-hosted OpenClaw-команда, которая работает как операционный штаб, а не как один чат-бот:
+
+- фаундерам и операторам, которым нужен AI command center через Telegram;
+- разработчикам, которые тестируют multi-agent delegation и durable task board;
+- AI automation консультантам, которым нужен живой reference implementation;
+- пользователям OpenClaw, которым нужны память, recovery, skills и роли специалистов из коробки.
+
+Не для тех, кто ищет обычный SaaS-чатбот или no-code демку. Это рабочий шаблон локальной agent-системы под владельца.
+
 ## Зачем?
 
 - **Один босс, семь специалистов.** Вы говорите с Хайзенбергом. Он делегирует правильному агенту. Вы получаете результат.
@@ -68,6 +79,27 @@ Where permitted by the applicable license, if you reuse, fork, modify, package, 
 | Мультиплатформенность | macOS + Linux + WSL | Docker | Python | Python |
 
 ## Архитектура
+
+### Рабочий цикл
+
+```mermaid
+flowchart LR
+    U[Пользователь / Telegram] --> H[Heisenberg Orchestrator]
+    H --> B[Board-First Task State]
+    H --> A1[Research]
+    H --> A2[Code / Technical]
+    H --> A3[Marketing]
+    H --> A4[Finance]
+    H --> A5[Quality / Legal]
+    A1 --> B
+    A2 --> B
+    A3 --> B
+    A4 --> B
+    A5 --> B
+    B --> H
+    H --> U
+```
+
 
 ```mermaid
 graph TB

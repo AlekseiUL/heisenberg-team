@@ -62,6 +62,18 @@ A production-ready template for running a **team of AI agents** that communicate
 
 This is not a framework. This is a **working system** you can clone, configure, and run.
 
+
+## Who is this for?
+
+Use this repository if you want a self-hosted OpenClaw team that feels like an operating crew, not a single chatbot:
+
+- founders and operators who want a Telegram-accessible AI command center;
+- builders experimenting with multi-agent delegation and durable task boards;
+- AI automation consultants who need a concrete reference implementation;
+- OpenClaw users who want memory, recovery, skills, and specialist roles already wired together.
+
+Not for: people looking for a generic SaaS chatbot or a no-code toy demo. This is a working template for a local/operator-owned agent system.
+
 ## Why?
 
 - **One boss, seven specialists.** You talk to Heisenberg. He delegates to the right agent. You get results.
@@ -85,6 +97,27 @@ This is not a framework. This is a **working system** you can clone, configure, 
 | Multi-platform | macOS + Linux + WSL | Docker | Python | Python |
 
 ## Architecture
+
+### Operating loop
+
+```mermaid
+flowchart LR
+    U[User / Telegram] --> H[Heisenberg Orchestrator]
+    H --> B[Board-First Task State]
+    H --> A1[Research]
+    H --> A2[Code / Technical]
+    H --> A3[Marketing]
+    H --> A4[Finance]
+    H --> A5[Quality / Legal]
+    A1 --> B
+    A2 --> B
+    A3 --> B
+    A4 --> B
+    A5 --> B
+    B --> H
+    H --> U
+```
+
 
 ```mermaid
 graph TB
