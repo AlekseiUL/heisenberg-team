@@ -293,6 +293,41 @@ bash scripts/deploy-team.sh
 4. Push (`git push origin feature/new-agent`)
 5. Open a Pull Request
 
+## Русская версия
+
+Heisenberg Team - это multi-agent AI system template для OpenClaw-style работы: несколько специализированных агентов, board-first coordination, self-healing/crash-recovery идеи и общий operating loop.
+
+Репозиторий показывает, как может выглядеть агентская команда, где роли разделены, задачи идут через board, а runtime должен быть наблюдаемым. Это полезно как пример архитектуры и стартовая точка для своего self-hosted setup.
+
+## Что внутри
+
+- 8 specialized agents;
+- board-first coordination pattern;
+- operating loop;
+- self-healing и crash-recovery notes;
+- provider support notes;
+- setup / requirements / architecture documentation.
+
+## Для кого
+
+- для людей, которые собирают multi-agent workflow;
+- для OpenClaw-style пользователей;
+- для тех, кто хочет понять разделение ролей в агентской команде;
+- для разработчиков, которым нужен не один agent prompt, а структура команды.
+
+## Что это не делает
+
+Это не hosted service и не готовая production-инсталляция с вашими ключами. Repo не должен содержать secrets, private memory, sessions или live customer data. Любой реальный запуск требует локальной настройки providers, routing, auth и safety policies.
+
+## Быстрый старт
+
+```bash
+git clone https://github.com/AlekseiUL/heisenberg-team.git
+cd heisenberg-team
+```
+
+После clone проверьте requirements, настройте providers локально и не коммитьте свои runtime secrets.
+
 ## Links / Resources
 
 - YouTube: https://youtube.com/@alekseiulianov
