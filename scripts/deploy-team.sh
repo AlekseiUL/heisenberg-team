@@ -74,6 +74,14 @@ for agent in "${AGENTS[@]}"; do
   echo "✅ $agent workspace created at $AGENT_DIR"
 done
 
+copy_shared() {
+  if [ -e "$2" ] || [ -L "$2" ]; then
+    [ "$FORCE" = true ] || return 0
+  fi
+  cp "$1" "$2"
+  if [ "${1##*.}" = sh ]; then chmod +x "$2"; fi
+}
+
 # ── Shared references ────────────────────────────────────────────────────────
 echo ""
 echo "📋 Copying shared references..."
@@ -82,13 +90,13 @@ for agent in "${AGENTS[@]}"; do
   [ -d "$AGENT_DIR/references" ] || mkdir -p "$AGENT_DIR/references"
 
   if [ -f "$REFS_DIR/team-constitution.md" ]; then
-    cp "$REFS_DIR/team-constitution.md" "$AGENT_DIR/references/"
+    copy_shared "$REFS_DIR/team-constitution.md" "$AGENT_DIR/references/team-constitution.md"
   fi
 
   if [ -f "$REFS_DIR/team-board.md.example" ]; then
-    cp "$REFS_DIR/team-board.md.example" "$AGENT_DIR/references/team-board.md"
+    copy_shared "$REFS_DIR/team-board.md.example" "$AGENT_DIR/references/team-board.md"
   elif [ -f "$REFS_DIR/team-board.md" ]; then
-    cp "$REFS_DIR/team-board.md" "$AGENT_DIR/references/"
+    copy_shared "$REFS_DIR/team-board.md" "$AGENT_DIR/references/team-board.md"
   fi
 done
 echo "  ✓ References copied"
@@ -102,8 +110,7 @@ for agent in "${AGENTS[@]}"; do
 
   for script in "${SHARED_SCRIPTS[@]}"; do
     if [ -f "$SCRIPTS_DIR/$script" ]; then
-      cp "$SCRIPTS_DIR/$script" "$AGENT_DIR/scripts/"
-      chmod +x "$AGENT_DIR/scripts/$script"
+      copy_shared "$SCRIPTS_DIR/$script" "$AGENT_DIR/scripts/$script"
     fi
   done
 done
@@ -116,7 +123,7 @@ for agent in "${AGENTS[@]}"; do
   EXAMPLE="$CONFIGS_DIR/$agent.openclaw.json.example"
 
   if [ -f "$EXAMPLE" ]; then
-    cp "$EXAMPLE" "$AGENT_DIR/openclaw.json.example"
+    copy_shared "$EXAMPLE" "$AGENT_DIR/openclaw.json.example"
     echo "  ✓ $agent config example copied"
   else
     echo "  ⚠ No config example found for $agent at $EXAMPLE"
