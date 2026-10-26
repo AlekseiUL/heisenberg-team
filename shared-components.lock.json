@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "upstream_repository": "https://github.com/AlekseiUL/heisenberg-team",
+  "scope": "Only the files listed here; agent prompts and model defaults are variant-owned. Hashes describe this reviewed source bundle, not a claim about current remote HEAD.",
+  "files": {
+    "scripts/deploy-team.sh": "39af7db0447a954f1a8aeb368e9c331fe2da2330a3ad34c4d1d840f93e775713",
+    "scripts/self-heal.sh": "8a54151cbcd7cac3a74e11f6e5a1af4b749f5a15cb0165611c30acd2f3bd5ea5",
+    "scripts/agent-health-check.sh": "3e37d1fefbd02f6df42d1d6755d2fad577f4451fc6d391383c2c91408ee341b3",
+    "references/team-board.md.example": "f582e8b8ffc0be34c2177ca9c306d1d0d45ce2b523b3a298d8ccc737d8e66871"
+  }
+}
