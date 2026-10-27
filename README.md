@@ -41,7 +41,7 @@ Release 2 adds better direct-message behavior, durable-memory rules, and updated
 
 ## Requirements
 
-- [Node.js](https://nodejs.org/) v18+
+- [Node.js](https://nodejs.org/) v24 LTS
 - [OpenClaw](https://github.com/openclaw/openclaw) (`npm install -g openclaw`)
 - Auth for at least one LLM provider (Anthropic, OpenAI, OpenAI Codex, Google, DeepSeek, or local models)
 - Telegram bot token (optional, for notifications via [@BotFather](https://t.me/BotFather))
@@ -53,7 +53,7 @@ Release 2 adds better direct-message behavior, durable-memory rules, and updated
 | RAM | 2 GB | 4 GB (8 agents) |
 | Disk | 500 MB | 2 GB (with logs/memory) |
 | OS | macOS 11+, Ubuntu 20.04+, Windows 11 (WSL2) | macOS 13+ or Ubuntu 22.04+ |
-| Node.js | 18.x | 20.x+ |
+| Node.js | 24.x | 24.x LTS |
 | Network | Required (LLM API calls) | Broadband |
 
 ## What is this?

@@ -17,7 +17,7 @@ All agents run inside **one OpenClaw gateway** as separate agent sessions. Each 
 
 ## Prerequisites
 
-- **Node.js 18+** — `node --version`
+- **Node.js 24 LTS** — `node --version`
 - **npm** — `npm --version`
 - **OpenClaw** — `npm install -g openclaw`
 - **Telegram account** — to receive messages from agents

@@ -5,7 +5,7 @@ This guide covers running Heisenberg Team on Ubuntu/Debian Linux (VPS or local).
 ## Prerequisites
 
 - Ubuntu 20.04+ / Debian 11+
-- Node.js 18+ (`curl -fsSL https://deb.nodesource.com/setup_18.x | sudo bash -`)
+- Node.js 24 LTS (`curl -fsSL https://deb.nodesource.com/setup_24.x | sudo bash -`)
 - OpenClaw (`npm install -g openclaw`)
 - Git, jq, curl
 
@@ -89,8 +89,8 @@ sudo ufw deny 3120
 ## Installation
 
 ```bash
-# 1. Install Node.js 18+
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+# 1. Install Node.js 24 LTS
+curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 # 2. Install OpenClaw
