@@ -165,7 +165,7 @@ graph TB
 
 ## Требования
 
-- [Node.js](https://nodejs.org/) v18+
+- [Node.js](https://nodejs.org/) v24 LTS
 - [OpenClaw](https://github.com/openclaw/openclaw) (`npm install -g openclaw`)
 - API-ключ хотя бы одного LLM-провайдера (Anthropic, OpenAI, Google, DeepSeek)
 - Telegram-бот токен (опционально, для уведомлений через [@BotFather](https://t.me/BotFather))
@@ -177,7 +177,7 @@ graph TB
 | RAM | 2 GB | 4 GB (8 агентов) |
 | Диск | 500 MB | 2 GB (с логами/памятью) |
 | ОС | macOS 11+, Ubuntu 20.04+, Windows 11 (WSL2) | macOS 13+ или Ubuntu 22.04+ |
-| Node.js | 18.x | 20.x+ |
+| Node.js | 24.x | 24.x LTS |
 | Сеть | Необходима (вызовы LLM API) | Широкополосный доступ |
 
 ## Быстрый старт

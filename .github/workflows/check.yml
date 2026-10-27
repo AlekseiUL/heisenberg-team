@@ -6,11 +6,14 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Check for PII leaks
         run: |
@@ -42,14 +45,8 @@ jobs:
 
       - name: Check for broken internal links
         run: |
-          BROKEN=0
-          grep -roh '\](docs/[^)]*)\|\](examples/[^)]*)' *.md docs/*.md 2>/dev/null | tr -d ']()' | sort -u | while read f; do
-            if [ ! -f "$f" ]; then
-              echo "❌ Broken link: $f"
-              BROKEN=$((BROKEN + 1))
-            fi
-          done
-          echo "✅ Link check complete"
+          python3 -m unittest discover -s tests -p test_links.py -v
+          python3 scripts/check_links.py
 
       - name: Check placeholders documented
         run: |

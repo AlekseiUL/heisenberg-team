@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) v18+
+- [Node.js](https://nodejs.org/) v24 LTS
 - [OpenClaw](https://github.com/openclaw/openclaw) installed (`npm install -g openclaw`)
 - API key for at least one LLM provider (Anthropic, OpenAI, Google, etc.)
 - Telegram bot token (recommended for notifications — create via [@BotFather](https://t.me/BotFather))
@@ -220,7 +220,7 @@ Edit `references/team-constitution.md` to change delegation rules and workflows.
 
 | Problem | Solution |
 |---------|----------|
-| Setup wizard fails | Check Node.js v18+ and OpenClaw installed |
+| Setup wizard fails | Check Node.js v24 LTS and OpenClaw installed |
 | Agent not responding | Check `openclaw status`, verify `~/.openclaw/agents/<name>/openclaw.json`, then inspect logs. Restart the shared gateway from your shell only if needed. |
 | Skills not loading | Check `ls ~/.openclaw/agents/producer/agent/skills/` |
 | Telegram not working | Verify `OWNER_TELEGRAM_ID` is set (digits only) |

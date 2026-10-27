@@ -24,7 +24,7 @@ Yes. Edit `SOUL.md` and `AGENTS.md` in each agent directory to change the langua
 
 ### The setup script fails
 1. Check that OpenClaw is installed: `openclaw --version`
-2. Check Node.js version: `node --version` (need v20+)
+2. Check Node.js version: `node --version` (need v24 LTS)
 3. Check permissions: `ls -la ~/.openclaw/agents/`
 
 ### I see `{{PLACEHOLDER}}` in agent messages
