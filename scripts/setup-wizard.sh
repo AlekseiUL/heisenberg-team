@@ -45,9 +45,13 @@ fi
 
 if command -v node >/dev/null 2>&1; then
   NODE_VER=$(node --version)
+  if ! node -e 'process.exit(Number(process.versions.node.split(".")[0]) === 24 ? 0 : 1)'; then
+    echo "Node 24 LTS is required; found $NODE_VER" >&2
+    exit 1
+  fi
   echo -e "  ${GREEN}✓${NC} Node.js $NODE_VER"
 else
-  echo -e "  ${RED}✗${NC} Node.js not found. Install v20+ from https://nodejs.org/"
+  echo -e "  ${RED}✗${NC} Node.js not found. Install v24 LTS from https://nodejs.org/"
   ERRORS=$((ERRORS + 1))
 fi
 
