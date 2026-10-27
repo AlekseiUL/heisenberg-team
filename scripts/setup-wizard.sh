@@ -364,7 +364,8 @@ if [ -d "$REPO_DIR/skills" ]; then
   SKILL_OK=0
   for skill_dir in "$REPO_DIR/skills"/*/; do
     skill_name=$(basename "$skill_dir")
-    if cp -r "$skill_dir" "$SKILLS_DEST/" 2>/dev/null; then
+    # BSD cp treats a trailing slash as contents-only; retain each skill name.
+    if cp -R "${skill_dir%/}" "$SKILLS_DEST/" 2>/dev/null; then
       SKILL_OK=$((SKILL_OK + 1))
     else
       echo -e "  ${YELLOW}⚠${NC} Failed to copy skill: $skill_name"
